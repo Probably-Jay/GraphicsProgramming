@@ -16,6 +16,8 @@
 #include "SOIL.h"
 #include <vector>
 
+#include "Camera.h"
+
 
 class Scene{
 
@@ -51,6 +53,9 @@ protected:
 	int frame = 0, time, timebase = 0;
 	char fps[40];
 	char mouseText[40];
+	char camPos[40];
+
+	Camera cam;
 
 };
 

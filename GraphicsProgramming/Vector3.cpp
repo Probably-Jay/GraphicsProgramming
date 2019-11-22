@@ -1,5 +1,7 @@
 #include "Vector3.h"
 
+	
+
 Vector3::Vector3(float x, float y, float z) {
 	this->x = x;
 	this->y = y;
@@ -111,6 +113,13 @@ void Vector3::scale(float scale) {
 	this->x *= scale;
 	this->y *= scale;
 	this->z *= scale;
+	
+}
+
+Vector3 Vector3::multiply(float scalar)
+{
+	Vector3 mult(this->x*scalar, this->y*scalar, this->z*scalar);
+	return mult;
 }
 
 void Vector3::add(const Vector3& v1, float scale) {

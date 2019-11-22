@@ -18,7 +18,10 @@ Scene::Scene(Input *in)
 	glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 
 	// Other OpenGL / render setting should be applied here.
-	
+	cam = Camera();
+	input->setMousePos(width / 2, height / 2);
+	glutWarpPointer(width / 2, height / 2);
+	glutSetCursor(GLUT_CURSOR_NONE);
 
 	// Initialise scene variables
 	
@@ -27,12 +30,14 @@ Scene::Scene(Input *in)
 void Scene::handleInput(float dt)
 {
 	// Handle user input
+	cam.handleInput(input, width, height, dt);
+	glutWarpPointer(width / 2, height / 2);
 }
 
 void Scene::update(float dt)
 {
 	// update scene related variables.
-
+	cam.update(dt);
 	// Calculate FPS for output
 	calculateFPS();
 }
@@ -45,11 +50,15 @@ void Scene::render() {
 	// Reset transformations
 	glLoadIdentity();
 	// Set the camera
-	gluLookAt(0.0f, 0.0f, 6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-	
+	gluLookAt(cam.getPosition().x, cam.getPosition().y, cam.getPosition().z, cam.getLookAt().x, cam.getLookAt().y, cam.getLookAt().z, cam.getUpDirection().x, cam.getUpDirection().y, cam.getUpDirection().z);
+
 	// Render geometry/scene here -------------------------------------
 	
-
+	glBegin(GL_TRIANGLES);
+	glVertex3f(-0.5, 0, 0);
+	glVertex3f(0.5, 0, 0);
+	glVertex3f(0, 1, 0);
+	glEnd();
 
 	// End render geometry --------------------------------------
 
@@ -112,8 +121,10 @@ void Scene::renderTextOutput()
 {
 	// Render current mouse position and frames per second.
 	sprintf_s(mouseText, "Mouse: %i, %i", input->getMouseX(), input->getMouseY());
+	sprintf_s(camPos, "Camera at: (%f, %f)", cam.getRotation().x, cam.getRotation().y);
 	displayText(-1.f, 0.96f, 1.f, 0.f, 0.f, mouseText);
 	displayText(-1.f, 0.90f, 1.f, 0.f, 0.f, fps);
+	displayText(-1.f, 0.84f, 1.f, 0.f, 0.f, camPos);
 }
 
 // Renders text to screen. Must be called last in render function (before swap buffers)

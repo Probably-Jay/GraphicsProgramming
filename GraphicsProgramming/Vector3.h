@@ -4,11 +4,12 @@
 #include <math.h>
 
 class Vector3 {
-
+	
 public:
 	Vector3(float x = 0, float y = 0, float z = 0);
 	Vector3 copy();
 
+	
 
 	void set(float x, float y, float z);
 	void setX(float x);
@@ -22,6 +23,7 @@ public:
 	void add(const Vector3& v1, float scale = 1.0);
 	void subtract(const Vector3& v1, float scale = 1.0);
 	void scale(float scale);
+	Vector3 multiply(float scalar);
 
 	float dot(const Vector3& v2);
 	Vector3 cross(const Vector3& v2);
@@ -43,6 +45,7 @@ public:
 	float x;
 	float y;
 	float z;
+
 };
 
 #endif
