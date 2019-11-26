@@ -26,11 +26,11 @@ void Camera::updateLookAt()
 	// from lecture slides, parametric formula of sphere
 	float cosR, cosP, cosY;
 	float sinR, sinP, sinY;
-	cosY= cosf(rotation.y*3.1415/180);
-	cosP= cosf(rotation.x*3.1415/180);
-	cosR= 1;
-	sinY= sinf(rotation.y*3.1415/180);
-	sinP= sinf(rotation.x*3.1415/180);
+	cosY= cosf(rotation.y*3.1415/180.f);
+	cosP= cosf(rotation.x*3.1415/180.f);
+	cosR= 1;						
+	sinY= sinf(rotation.y*3.1415/180.f);
+	sinP= sinf(rotation.x*3.1415/180.f);
 	sinR= 0;
 
 	// calculate local forward direction
@@ -55,44 +55,44 @@ void Camera::updateLookAt()
 void Camera::handleInput(Input *input, float windowWidth, float windowHeight, float dt)
 {
 
-	direction = Vector3(0, 0, 0);
+	direction = Vector3(0.f, 0.f, 0.f);
 	
 	// movement
 	if (input->isKeyDown(forward)) {
-		direction.z += 1; 
+		direction.z += 1.f; 
 	}if (input->isKeyDown(backwards)) {
-		direction.z -= 1; 
+		direction.z -= 1.f; 
 	}if (input->isKeyDown(right)) {
-		direction.x += 1; 
+		direction.x += 1.f; 
 	}if (input->isKeyDown(left)) {
-		direction.x -= 1; 
+		direction.x -= 1.f; 
 	}if (input->isKeyDown(up)) {
-		direction.y += 1; 
+		direction.y += 1.f; 
 	}if (input->isKeyDown(down)) {
-		direction.y -= 1;
+		direction.y -= 1.f;
 	}
 	direction.normalise();
 
 	//mouse look
-	xMouseDelta = input->getMouseX() - windowWidth / 2;
-	yMouseDelta = input->getMouseY() - windowHeight / 2;
-	input->setMousePos(windowWidth / 2, windowHeight / 2);
+	xMouseDelta = input->getMouseX() - windowWidth / 2.f;
+	yMouseDelta = input->getMouseY() - windowHeight / 2.f;
+	input->setMousePos(windowWidth / 2.f, windowHeight / 2.f);
 
 	//if the mouse has moved
-	if (abs(xMouseDelta) + abs(yMouseDelta > 1)) {
+	if (abs(xMouseDelta) + abs(yMouseDelta > 1.f)) {
 		rotation.y += xMouseDelta*lookSpeed*dt;
 		rotation.x -= yMouseDelta*lookSpeed*dt;
 		
-		if (rotation.y > 180) {
-			rotation.y-= 360;
-		}if (rotation.y < -180) {
-			rotation.y += 360;
+		if (rotation.y > 180.f) {
+			rotation.y-= 360.f;
+		}if (rotation.y < -180.f) {
+			rotation.y += 360.f;
 		}
 
-		if (rotation.x < -80) {
-			rotation.x = -80;
-		}if (rotation.x > 80) {
-			rotation.x = 80;
+		if (rotation.x < -80.f) {
+			rotation.x = -80.f;
+		}if (rotation.x > 80.f) {
+			rotation.x = 80.f;
 		}
 		updateLookAt();
 	}
