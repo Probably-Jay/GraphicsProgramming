@@ -1,6 +1,10 @@
 #pragma once
 #include "Vector3.h"
+#include "glut.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 #include "Input.h"
+#include <stdio.h>
 class Camera
 {
 public:
@@ -16,6 +20,7 @@ public:
 
 	void handleInput(Input * input, float windowWidth, float windowHeight, float dt);
 	void update( float dt);
+	void drawSkybox();
 
 private:
 
@@ -32,8 +37,11 @@ private:
 	int xMouseDelta;
 	int yMouseDelta;
 
-	float speed = 5;
+	float speed;
+	float walkingSpeed = 20;
+	float runningSpeed = 40;
 	float lookSpeed = 100;
+	bool running;
 
 	enum Keys // make input handling more readable
 	{
@@ -42,7 +50,8 @@ private:
 		left = 97,
 		right = 100,
 		up = 101,
-		down = 113
+		down = 113,
+		run = 92,
 	};
 
 	bool initialResetLook = true;

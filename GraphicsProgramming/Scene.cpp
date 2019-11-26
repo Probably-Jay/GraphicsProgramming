@@ -25,6 +25,10 @@ Scene::Scene(Input *in)
 
 	// Initialise scene variables
 	
+	if (!object.load("models/teapot.obj", "gfx/checked.png")) {
+		MessageBox(NULL, "Filepath error", "Error", MB_OK);
+	}
+	
 }
 
 void Scene::handleInput(float dt)
@@ -54,11 +58,14 @@ void Scene::render() {
 
 	// Render geometry/scene here -------------------------------------
 	
-	glBegin(GL_TRIANGLES);
+	/*glBegin(GL_TRIANGLES);
 	glVertex3f(-0.5, 0, 0);
 	glVertex3f(0.5, 0, 0);
 	glVertex3f(0, 1, 0);
-	glEnd();
+	glEnd();*/
+
+	object.render();
+
 
 	// End render geometry --------------------------------------
 

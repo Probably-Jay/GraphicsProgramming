@@ -1,4 +1,5 @@
 #pragma once
+#include "Model.h"
 #include "Vector3.h"
 class Object
 {
@@ -7,9 +8,12 @@ public:
 	~Object();
 
 
+	bool load(char* modelFilename, char* textureFilename);
+	void render();
 
 private:
 	Vector3 positon;
+	Model model;
 
 };
 

@@ -18,6 +18,8 @@
 
 #include "Camera.h"
 
+#include "Object.h"
+
 
 class Scene{
 
@@ -56,7 +58,7 @@ protected:
 	char camPos[40];
 
 	Camera cam;
-
+	Object object;
 };
 
 #endif
