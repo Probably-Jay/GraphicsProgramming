@@ -5,6 +5,12 @@
 #include <gl/GLU.h>
 #include "Input.h"
 #include <stdio.h>
+
+#include "SOIL.h"
+
+
+
+using namespace std;
 class Camera
 {
 public:
@@ -20,6 +26,7 @@ public:
 
 	void handleInput(Input * input, float windowWidth, float windowHeight, float dt);
 	void update( float dt);
+	void loadSkybox(char * filename);
 	void drawSkybox();
 
 private:
@@ -55,6 +62,9 @@ private:
 	};
 
 	bool initialResetLook = true;
+
+	GLuint skyTexture;
+
 
 };
 

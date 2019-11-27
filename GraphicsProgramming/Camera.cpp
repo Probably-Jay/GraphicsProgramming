@@ -121,6 +121,26 @@ void Camera::update(float dt)
 	}
 }
 
+void Camera::loadSkybox(char * filename)
+{
+	bool result;
+
+
+	result = skyTexture = SOIL_load_OGL_texture
+	(
+		filename,
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT | SOIL_FLAG_INVERT_Y 
+	);
+
+
+	if (!result)
+	{
+		MessageBox(NULL, "Texture failed to load", "Error", MB_OK);
+	}
+}
+
 
 void Camera::drawSkybox() {
 
@@ -128,7 +148,7 @@ void Camera::drawSkybox() {
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
 	glTranslatef(0, 0, 6);
-	glBindTexture(GL_TEXTURE_2D, sky);
+	glBindTexture(GL_TEXTURE_2D, skyTexture);
 	glBegin(GL_QUADS);
 	// Top
 	//glColor3f(0.0f, 1.0f, 0.0f); 
