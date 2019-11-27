@@ -32,10 +32,11 @@ bool Model::load(char* modelFilename, char* textureFilename)
 
 void Model::render()
 {
-	// TODO: Need to add code here to render the loaded model
-	// How this is done is based on how you stored and sorted the data
 
-	glBindTexture(GL_TEXTURE_2D, texture);//tells openglwhich texture to use
+
+	glEnable(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

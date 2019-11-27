@@ -137,7 +137,7 @@ void Camera::loadSkybox(char * filename)
 
 	if (!result)
 	{
-		MessageBox(NULL, "Texture failed to load", "Error", MB_OK);
+		MessageBox(NULL, "Skybox texture failed to load", "Error", MB_OK);
 	}
 }
 
@@ -147,11 +147,10 @@ void Camera::drawSkybox() {
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
-	glTranslatef(0, 0, 6);
+	glTranslatef(position.x,position.y,position.z);
 	glBindTexture(GL_TEXTURE_2D, skyTexture);
 	glBegin(GL_QUADS);
 	// Top
-	//glColor3f(0.0f, 1.0f, 0.0f); 
 	glNormal3f(0.0f, -1.0f, 0.0f);
 	glTexCoord2f(0.5f, 0.25f);		  glVertex3f(1.0f, 1.0f, -1.0f);
 	glTexCoord2f(0.5f, 0.f);		  glVertex3f(-1.0f, 1.0f, -1.0f);
@@ -159,7 +158,6 @@ void Camera::drawSkybox() {
 	glTexCoord2f(0.25f, 0.25f);		  glVertex3f(1.0f, 1.0f, 1.0f);
 
 	// Bottom
-	// glColor3f(1.0f, 0.5f, 0.0f);  
 	glNormal3f(0.0f, 1.0f, 0.0f);
 	glTexCoord2f(0.5f, 0.75f);		glVertex3f(1.0f, -1.0f, 1.0f);
 	glTexCoord2f(0.25f, 0.75f);		glVertex3f(-1.0f, -1.0f, 1.0f);
@@ -167,7 +165,6 @@ void Camera::drawSkybox() {
 	glTexCoord2f(0.5f, 0.5f);		glVertex3f(1.0f, -1.0f, -1.0f);
 
 	// Front 
-	//   glColor3f(1.0f, 0.0f, 0.0f);
 	glNormal3f(0.0f, 0.0f, -1.0f);
 	glTexCoord2f(0.75f, 0.25f);		glVertex3f(1.0f, 1.0f, 1.0f);
 	glTexCoord2f(1.0f, 0.25f);		glVertex3f(-1.0f, 1.0f, 1.0f);
@@ -175,7 +172,6 @@ void Camera::drawSkybox() {
 	glTexCoord2f(0.75f, 0.5f);		glVertex3f(1.0f, -1.0f, 1.0f);
 
 	// Back
-	//  glColor3f(1.0f, 1.0f, 0.0f);	
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.5f, 0.5f);  		glVertex3f(1.0f, -1.0f, -1.0f);
 	glTexCoord2f(0.25f, 0.5f);		glVertex3f(-1.0f, -1.0f, -1.0f);
@@ -185,7 +181,6 @@ void Camera::drawSkybox() {
 
 
 	// Left
-	//   glColor3f(0.0f, 0.0f, 1.0f);
 	glNormal3f(1.0f, 0.0f, 0.0f);
 	glTexCoord2f(0.25f, 0.25f);		glVertex3f(-1.0f, 1.0f, 1.0f);
 	glTexCoord2f(0.f, 0.25f);  		glVertex3f(-1.0f, 1.0f, -1.0f);
@@ -193,7 +188,6 @@ void Camera::drawSkybox() {
 	glTexCoord2f(0.25f, 0.5f); 		glVertex3f(-1.0f, -1.0f, 1.0f);
 
 	// Right
-	//   glColor3f(1.0f, 0.0f, 1.0f);
 	glNormal3f(-1.0f, 0.0f, 0.0f);
 	glTexCoord2f(0.5f, 0.25f);		glVertex3f(1.0f, 1.0f, -1.0f);
 	glTexCoord2f(0.75f, 0.25f);		glVertex3f(1.0f, 1.0f, 1.0f);

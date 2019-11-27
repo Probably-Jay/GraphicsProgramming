@@ -18,7 +18,9 @@ Scene::Scene(Input *in)
 	glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 
 	// Other OpenGL / render setting should be applied here.
-	cam.loadSkybox("\gfx\kisspng-space-skybox-texture.png");
+
+	cam.loadSkybox("gfx/kisspng-space-skybox-texture.png");
+
 	input->setMousePos(width / 2, height / 2);
 	glutWarpPointer(width / 2, height / 2);
 	glutSetCursor(GLUT_CURSOR_NONE);

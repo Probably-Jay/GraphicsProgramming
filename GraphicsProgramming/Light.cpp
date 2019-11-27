@@ -13,4 +13,5 @@ Light::~Light()
 
 void Light::setUpLight()
 {
+
 }
