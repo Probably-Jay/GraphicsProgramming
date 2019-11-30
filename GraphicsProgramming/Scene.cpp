@@ -38,6 +38,20 @@ void Scene::handleInput(float dt)
 	// Handle user input
 	cam.handleInput(input, width, height, dt);
 	glutWarpPointer(width / 2, height / 2);
+	if (input->isKeyDown('r')) {
+		glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
+
+		if (polygonMode == GL_LINE) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+		else if (polygonMode == GL_FILL) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+
+		input->SetKeyUp('r');
+	}
+
+
 }
 
 void Scene::update(float dt)
@@ -60,14 +74,16 @@ void Scene::render() {
 	cam.drawSkybox();
 	// Render geometry/scene here -------------------------------------
 	
-	/*glBegin(GL_TRIANGLES);
-	glVertex3f(-0.5, 0, 0);
-	glVertex3f(0.5, 0, 0);
-	glVertex3f(0, 1, 0);
-	glEnd();*/
 
-	object.render();
+	glPushMatrix();
+		glTranslatef(0, 20, 0);
+		object.render();
+	glPopMatrix();
 
+	
+
+
+	SimpleObject::drawPlane(Vector3(0,-5,0), 20, 20);
 
 	// End render geometry --------------------------------------
 
@@ -77,6 +93,10 @@ void Scene::render() {
 	// Swap buffers, after all objects are rendered.
 	glutSwapBuffers();
 }
+
+
+
+
 
 // Handles the resize of the window. If the window changes size the perspective matrix requires re-calculation to match new window size.
 void Scene::resize(int w, int h) 

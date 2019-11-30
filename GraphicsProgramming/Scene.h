@@ -7,11 +7,9 @@
 #define _SCENE_H
 
 // Include GLUT, openGL, input.
-#include "glut.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
+#include"GlHeaders.h"
 #include "Input.h"
-#include <stdio.h>
+
 // Further includes should go here:
 #include "SOIL.h"
 #include <vector>
@@ -19,6 +17,8 @@
 #include "Camera.h"
 
 #include "Object.h"
+
+#include "SimpleObjectManager.h"
 
 
 class Scene{
@@ -59,6 +59,8 @@ protected:
 
 	Camera cam;
 	Object object;
+	GLint polygonMode;
+
 };
 
 #endif
