@@ -4,5 +4,6 @@ class ObjectManager
 public:
 	ObjectManager();
 	~ObjectManager();
+
 };
 
