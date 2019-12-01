@@ -26,10 +26,10 @@ Scene::Scene(Input *in)
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	// Initialise scene variables
+	objectManager.loadObjects();
+
+
 	
-	if (!object.load("models/teapot.obj", "gfx/checked.png")) {
-		MessageBox(NULL, "Filepath error", "Error", MB_OK);
-	}
 	
 }
 
@@ -75,10 +75,7 @@ void Scene::render() {
 	// Render geometry/scene here -------------------------------------
 	
 
-	glPushMatrix();
-		glTranslatef(0, 20, 0);
-		object.render();
-	glPopMatrix();
+	objectManager.drawObjects();
 
 	
 

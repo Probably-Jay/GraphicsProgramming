@@ -20,6 +20,10 @@
 
 #include "SimpleObjectManager.h"
 
+#include "ObjectManager.h";
+
+#include <array>
+#include <string>
 
 class Scene{
 
@@ -58,7 +62,13 @@ protected:
 	char camPos[40];
 
 	Camera cam;
-	Object object;
+
+	ObjectManager objectManager;
+
+	/*vector<vector<char *>> objectFilepaths = {
+		{"models/teapot.obj", "gfx/checked.png"}
+	};*/
+
 	GLint polygonMode;
 
 };
