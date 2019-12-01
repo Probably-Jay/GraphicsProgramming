@@ -108,6 +108,7 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SimpleObject.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

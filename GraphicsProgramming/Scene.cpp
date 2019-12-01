@@ -37,7 +37,17 @@ void Scene::handleInput(float dt)
 {
 	// Handle user input
 	cam.handleInput(input, width, height, dt);
-	glutWarpPointer(width / 2, height / 2);
+
+	if (input->isKeyDown('m')) {
+		warpCursor = !warpCursor;
+		input->SetKeyUp('m');
+	}
+
+	if (warpCursor) {
+		glutWarpPointer(width / 2, height / 2);
+	}
+
+
 	if (input->isKeyDown('r')) {
 		glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
 
@@ -58,6 +68,9 @@ void Scene::update(float dt)
 {
 	// update scene related variables.
 	cam.update(dt);
+	float s = sin(glutGet(GLUT_ELAPSED_TIME) / 1000.f);
+	//objectManager.objects[0]->transform.rotationScalar = 20 + 50*sin(glutGet(GLUT_ELAPSED_TIME)/1000.f);
+	objectManager.objects[0]->applyTransformToAllChildren(Transform(Vector3(10+10*s,0,0), Vector3(0.8,0.8,0.8),   50 * s));
 	// Calculate FPS for output
 	calculateFPS();
 }
@@ -75,12 +88,14 @@ void Scene::render() {
 	// Render geometry/scene here -------------------------------------
 	
 
+
+
 	objectManager.drawObjects();
 
 	
 
 
-	SimpleObject::drawPlane(Vector3(0,-5,0), 20, 20);
+	//SimpleObject::drawPlane(Vector3(0,-5,0), 20, 20);
 
 	// End render geometry --------------------------------------
 

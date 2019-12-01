@@ -13,6 +13,7 @@
 // Further includes should go here:
 #include "SOIL.h"
 #include <vector>
+#include "Transform.h"
 
 #include "Camera.h"
 
@@ -24,6 +25,7 @@
 
 #include <array>
 #include <string>
+
 
 class Scene{
 
@@ -70,6 +72,8 @@ protected:
 	};*/
 
 	GLint polygonMode;
+
+	bool warpCursor = true;
 
 };
 

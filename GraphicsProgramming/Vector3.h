@@ -10,6 +10,7 @@ public:
 	Vector3 copy();
 
 	static Vector3 zero() { return Vector3(0, 0, 0); };
+	static Vector3 one() { return Vector3(1, 1, 1); };
 
 	void set(float x, float y, float z);
 	void setX(float x);
