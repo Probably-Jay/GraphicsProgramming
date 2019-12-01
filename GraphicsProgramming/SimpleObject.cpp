@@ -1,4 +1,4 @@
-#include "SimpleObjectManager.h"
+#include "SimpleObject.h"
 
 
 

@@ -94,7 +94,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SimpleObjectManager.cpp" />
+    <ClCompile Include="SimpleObject.cpp" />
     <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +107,7 @@
     <ClInclude Include="ObjectInfo.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SimpleObjectManager.h" />
+    <ClInclude Include="SimpleObject.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

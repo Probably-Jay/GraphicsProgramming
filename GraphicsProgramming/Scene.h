@@ -18,7 +18,7 @@
 
 #include "Object.h"
 
-#include "SimpleObjectManager.h"
+#include "SimpleObject.h"
 
 #include "ObjectManager.h";
 
