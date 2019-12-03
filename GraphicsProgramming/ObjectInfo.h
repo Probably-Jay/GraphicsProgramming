@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector3.h"
 #include "Transform.h"
+#include "Model.h"
+#include "ModelManager.h"
 
 #include <map>
 enum ObjectChildrenEnum
@@ -10,14 +12,15 @@ enum ObjectChildrenEnum
 	none,
 };
 
+//  char * ObjName, char * texName
+
 struct ObjectInfo:Transform
 {
-	ObjectInfo(Transform const & trans, char * ObjName, char * texName, ObjectChildrenEnum childrenEnum = ObjectChildrenEnum::none) 
-		:Transform(trans), objFileName(ObjName), texFileName(texName), childrenEnum(childrenEnum) 
+	ObjectInfo(Transform const & trans, ModelManager::ModelEnum model, ObjectChildrenEnum childrenEnum = ObjectChildrenEnum::none) 
+		:Transform(trans), modelName(model), childrenEnum(childrenEnum) 
 	{};
 
-	char * objFileName;
-	char * texFileName;
+	ModelManager::ModelEnum modelName;
 	ObjectChildrenEnum childrenEnum;
 
 

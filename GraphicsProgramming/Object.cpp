@@ -14,20 +14,21 @@ Object::~Object()
 	}
 }
 
-bool Object::initialise(ObjectInfo myInfo, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos, int parentDepth )
+void Object::initialise(ObjectInfo myInfo, ModelManager & modelManager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos, int parentDepth )
 {
 	transform = (Transform)myInfo; // upcast to transform
 
-	bool loaded = model.load(myInfo.objFileName, myInfo.texFileName);
+	model = modelManager.getModel(myInfo.modelName);
+
 	if (parentDepth < 20) {
 		for (auto childObjInfo : objectInfos->at(myInfo.childrenEnum)) {
 			Object * child = new Object();
-			loaded = loaded && child->initialise(childObjInfo, objectInfos, parentDepth+1);
+			child->initialise(childObjInfo, modelManager, objectInfos, parentDepth+1);
 			child->depthOfParents++;
 			childObjects.push_back(child);
 		}
 	}
-	return loaded;
+	//return loaded;
 
 }
 
@@ -37,7 +38,7 @@ void Object::render()
 		glTranslatef(transform.position.x, transform.position.y, transform.position.z);
 		glRotatef(transform.rotationScalar, transform.rotationVector.x, transform.rotationVector.y, transform.rotationVector.z);
 		glScalef(transform.scale.x,transform.scale.y,transform.scale.z);
-		model.render();
+		model->render();
 		for (auto child : childObjects) {
 			child->render();
 		}

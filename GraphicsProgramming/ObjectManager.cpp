@@ -4,6 +4,7 @@
 
 ObjectManager::ObjectManager()
 {
+	modelManager.loadModels();
 }
 
 
@@ -14,18 +15,16 @@ ObjectManager::~ObjectManager()
 	}
 }
 
-bool ObjectManager::loadObjects()
+void ObjectManager::loadObjects()
 {
-	for (auto objInfo : objectInfos.at(parents)) {
+	for (auto objInfo : objectInfos.at(ObjectChildrenEnum::parents)) {
 		Object *obj = new Object();
 		objects.push_back(obj);
-		if (!obj->initialise(objInfo, &objectInfos)) {
-			MessageBox(NULL, "Filepath error", "Error", MB_OK);
-			return false;
-		}
+
 		
+		obj->initialise(objInfo, modelManager,  &objectInfos);
 	}
-	return true;
+	
 }
 
 void ObjectManager::drawObjects()
