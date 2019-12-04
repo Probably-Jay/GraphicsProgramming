@@ -75,6 +75,8 @@ protected:
 
 	bool warpCursor = true;
 
+	SimpleObjectManager simpleObjectManager;
+
 };
 
 #endif

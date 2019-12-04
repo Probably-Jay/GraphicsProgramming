@@ -27,6 +27,7 @@ Scene::Scene(Input *in)
 
 	// Initialise scene variables
 	objectManager.loadObjects();
+	simpleObjectManager.loadTextures();
 
 
 	
@@ -70,7 +71,7 @@ void Scene::update(float dt)
 	cam.update(dt);
 	float s = sin(glutGet(GLUT_ELAPSED_TIME) / 1000.f);
 	//objectManager.objects[0]->transform.rotationScalar = 20 + 50*sin(glutGet(GLUT_ELAPSED_TIME)/1000.f);
-	objectManager.objects[0]->applyTransformToAllChildren(Transform(Vector3(10+10*s,0,0), Vector3(0.8,0.8,0.8),   50 * s));
+	//objectManager.objects[0]->applyTransformToAllChildren(Transform(Vector3(10,25,0), Vector3(0.8,0.8,0.8),   50 * s));
 	// Calculate FPS for output
 	calculateFPS();
 }
@@ -88,14 +89,10 @@ void Scene::render() {
 	// Render geometry/scene here -------------------------------------
 	
 
-
-
 	objectManager.drawObjects();
 
 	
-
-
-	//SimpleObject::drawPlane(Vector3(0,-5,0), 20, 20);
+	//simpleObjectManager.drawPlane(Vector3(0,0,0), 3000, 300,SimpleObjectManager::grass);
 
 	// End render geometry --------------------------------------
 
@@ -123,7 +120,7 @@ void Scene::resize(int w, int h)
 	float ratio = (float)w / (float)h;
 	fov = 45.0f;
 	nearPlane = 0.1f;
-	farPlane = 100.0f;
+	farPlane = 300.0f;
 
 	// Use the Projection Matrix
 	glMatrixMode(GL_PROJECTION);

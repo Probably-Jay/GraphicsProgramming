@@ -20,7 +20,9 @@ public:
 	enum ModelEnum
 	{
 		teapot,
-
+		cow,
+		ufo,
+		garfield,
 		none
 	};
 
@@ -37,6 +39,9 @@ private:
 
 	map<ModelEnum, vector<char*> >filenames {
 		{teapot,{"models/teapot.obj", "gfx/checked.png"}},
+		{cow,{"models/moo.obj", "gfx/cow.png"}},
+		{ufo,{"models/ufo.obj", "gfx/ufo.png"}},
+		{garfield,{"models/garfiled.obj", "gfx/garfieldskin.png"}},
 	};
 
 

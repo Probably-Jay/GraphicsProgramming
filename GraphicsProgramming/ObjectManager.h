@@ -31,7 +31,10 @@ private:
 
 		{
 			parents , { // objects that are not the children of any other objects - no not necessarily have any children of their own
-				ObjectInfo(Transform(Vector3(0,0,0)),ModelManager::ModelEnum::teapot,teapotKids),
+				//ObjectInfo(Transform(Vector3(0,0,0)),ModelManager::ModelEnum::teapot,teapotKids),
+				//ObjectInfo(Transform(Vector3(0,0,0)),ModelManager::ModelEnum::cow,none),
+				//ObjectInfo(Transform(Vector3(0,20,-30)),ModelManager::ModelEnum::ufo,none),
+				ObjectInfo(Transform(Vector3(0,0,0)),ModelManager::ModelEnum::garfield,none),
 				
 			}
 		},
