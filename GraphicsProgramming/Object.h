@@ -11,14 +11,14 @@ public:
 	~Object();
 
 	
-	void initialise(ObjectInfo myInfo, ModelManager& modelManager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos, int parentDepth= 0);
+	void initialise(ObjectInfo myInfo, ModelManager& modelManager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos = nullptr, int parentDepth= 0);
 	void render();
 
 	Transform transform;
 
 	void applyTransformToAllChildren(Transform t);
 
-	
+	virtual void initialise(ModelManager& modelManager);
 
 
 private:

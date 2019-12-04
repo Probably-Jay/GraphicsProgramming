@@ -71,7 +71,7 @@ void Scene::update(float dt)
 	cam.update(dt);
 	float s = sin(glutGet(GLUT_ELAPSED_TIME) / 1000.f);
 	//objectManager.objects[0]->transform.rotationScalar = 20 + 50*sin(glutGet(GLUT_ELAPSED_TIME)/1000.f);
-	//objectManager.objects[0]->applyTransformToAllChildren(Transform(Vector3(10,25,0), Vector3(0.8,0.8,0.8),   50 * s));
+	objectManager.objects[0]->applyTransformToAllChildren(Transform(Vector3(10,55,0), Vector3(0.8,0.8,0.8),   50 * s));
 	// Calculate FPS for output
 	calculateFPS();
 }
@@ -92,7 +92,7 @@ void Scene::render() {
 	objectManager.drawObjects();
 
 	
-	//simpleObjectManager.drawPlane(Vector3(0,0,0), 3000, 300,SimpleObjectManager::grass);
+	simpleObjectManager.drawPlane(Vector3(0,0,0), 3000, 300,SimpleObjectManager::grass);
 
 	// End render geometry --------------------------------------
 

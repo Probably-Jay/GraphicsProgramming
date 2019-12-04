@@ -16,8 +16,8 @@ enum ObjectChildrenEnum
 
 struct ObjectInfo:Transform
 {
-	ObjectInfo(Transform const & trans, ModelManager::ModelEnum model, ObjectChildrenEnum childrenEnum = ObjectChildrenEnum::none) 
-		:Transform(trans), modelName(model), childrenEnum(childrenEnum) 
+	ObjectInfo(ModelManager::ModelEnum model, Transform const& trans = Transform(),ObjectChildrenEnum childrenEnum = ObjectChildrenEnum::none)
+		: modelName(model),  Transform(trans), childrenEnum(childrenEnum)
 	{};
 
 	ModelManager::ModelEnum modelName;

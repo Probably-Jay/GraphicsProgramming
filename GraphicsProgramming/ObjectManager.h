@@ -6,7 +6,7 @@
 #include <map>
 #include "Transform.h"
 #include "ModelManager.h"
-
+#include "Spaceship.h"
 
 class Object;
 class ObjectManager
@@ -31,16 +31,16 @@ private:
 
 		{
 			parents , { // objects that are not the children of any other objects - no not necessarily have any children of their own
-				//ObjectInfo(Transform(Vector3(0,0,0)),ModelManager::ModelEnum::teapot,teapotKids),
-				//ObjectInfo(Transform(Vector3(0,0,0)),ModelManager::ModelEnum::cow,none),
+				ObjectInfo(ModelManager::ModelEnum::teapot,Transform(Vector3(10,0,0)),teapotKids),
+				ObjectInfo(ModelManager::ModelEnum::cow),
 				//ObjectInfo(Transform(Vector3(0,20,-30)),ModelManager::ModelEnum::ufo,none),
-				ObjectInfo(Transform(Vector3(0,0,0)),ModelManager::ModelEnum::garfield,none),
+				//ObjectInfo(Transform(Vector3(0,0,0)),ModelManager::ModelEnum::garfield,none),
 				
 			}
 		},
 		{
 			teapotKids , { // children of the teapot
-				ObjectInfo(Transform(Vector3(10,0,0),Vector3(0.8,0.8,0.8),20.f),ModelManager::ModelEnum::teapot,teapotKids),
+				ObjectInfo(ModelManager::ModelEnum::teapot,Transform(Vector3(10,0,0),Vector3(0.8,0.8,0.8),20.f),teapotKids),
 
 				
 			}
@@ -52,8 +52,7 @@ private:
 	
 
 
-
-
+	Spaceship spaceship;
 
 	vector<Object *> transparentObjects;
 

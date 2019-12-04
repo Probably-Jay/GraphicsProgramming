@@ -21,7 +21,9 @@
 
 #include "SimpleObject.h"
 
-#include "ObjectManager.h";
+#include "ObjectManager.h"
+
+#include "Spaceship.h"
 
 #include <array>
 #include <string>
@@ -66,6 +68,8 @@ protected:
 	Camera cam;
 
 	ObjectManager objectManager;
+
+	Spaceship spaceship;
 
 	/*vector<vector<char *>> objectFilepaths = {
 		{"models/teapot.obj", "gfx/checked.png"}

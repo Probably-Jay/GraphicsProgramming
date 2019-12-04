@@ -14,13 +14,13 @@ Object::~Object()
 	}
 }
 
-void Object::initialise(ObjectInfo myInfo, ModelManager & modelManager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos, int parentDepth )
+void Object::initialise(ObjectInfo myInfo, ModelManager & modelManager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos , int parentDepth )
 {
 	transform = (Transform)myInfo; // upcast to transform
 
 	model = modelManager.getModel(myInfo.modelName);
 
-	if (parentDepth < 20) {
+	if (parentDepth < 20 && objectInfos!= nullptr) {
 		for (auto childObjInfo : objectInfos->at(myInfo.childrenEnum)) {
 			Object * child = new Object();
 			child->initialise(childObjInfo, modelManager, objectInfos, parentDepth+1);
@@ -53,4 +53,8 @@ void Object::applyTransformToAllChildren(Transform t)
 			c->applyTransformToAllChildren(t);
 		}
 	}
+}
+
+void Object::initialise(ModelManager& modelManager)
+{
 }
