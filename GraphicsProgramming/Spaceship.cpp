@@ -1,8 +1,8 @@
 #include "Spaceship.h"
 
 Spaceship::Spaceship() {
+	childObjects.push_back(&beam);
 	
-
 }
 
 
@@ -11,8 +11,23 @@ Spaceship::~Spaceship() {
 
 }
 
-void Spaceship::initialise(ModelManager& modelManager)
+void Spaceship::initialise(ModelManager& modelManager,LightManager * lightManager) 
 {
-	//((Object*)this)->initialise(info, modelManager);
-	Object::initialise(info, modelManager);
+	this->lightManager = lightManager;
+	Object::initialise(myInfo, modelManager,lightManager);
+	beam.initialise(beamInfo, modelManager,lightManager);
+
+	light = this->lightManager->newSpotLight(Vector3(0, 0, 0), Vector3(0, 1, 0), 50, 30);
+
+	 
+}
+
+void Spaceship::spaceshipUpdate(float dt)
+{
+	light->updatePosition(transform.position);
+}
+
+void Spaceship::render()
+{
+
 }

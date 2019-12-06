@@ -45,7 +45,7 @@ void SimpleObjectManager::drawPlane(Vector3 pos, float scale, int resolution, Si
 
 	float halfTriangleProportion = halfTrianglesize / scale;
 
-	glNormal3f(0.0f, 0.0f, -1.0f);
+	glNormal3f(0.0f, 1.0f, 0.0f);
 
 	glColor3f(1, 1, 1);
 	for (float i = -halfTrianglesPerSide; i < halfTrianglesPerSide; i++) {

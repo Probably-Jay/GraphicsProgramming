@@ -8,6 +8,7 @@
 
 #include "SOIL.h"
 
+#include "Spaceship.h"
 
 
 using namespace std;
@@ -21,12 +22,14 @@ public:
 	Vector3 getRotation() { return rotation; };
 	Vector3 getLookAt() { return lookAt; };
 	Vector3 getUpDirection() { return upDirection; };
+	Vector3 getForwardDirection() { return forwardDirection; };
 
 	void updateLookAt();
 
 	void handleInput(Input * input, float windowWidth, float windowHeight, float dt);
 	void update( float dt);
 	void loadSkybox(char * filename);
+	void passSpaceship(Spaceship & s) { spaceship = &s; };
 	void drawSkybox();
 
 private:
@@ -64,6 +67,10 @@ private:
 	bool initialResetLook = true;
 
 	GLuint skyTexture;
+
+	bool followSpaceship = true;
+
+	Spaceship * spaceship;
 
 
 };

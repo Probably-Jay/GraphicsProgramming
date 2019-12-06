@@ -68,6 +68,7 @@ protected:
 	Camera cam;
 
 	ObjectManager objectManager;
+	LightManager lightManager;
 
 	Spaceship spaceship;
 
@@ -80,6 +81,8 @@ protected:
 	bool warpCursor = true;
 
 	SimpleObjectManager simpleObjectManager;
+
+
 
 };
 

@@ -30,10 +30,20 @@ bool Model::load(char* modelFilename, char* textureFilename)
 	return true;
 }
 
-void Model::render()
+void Model::render(float alpha)
 {
 
-
+	bool lightOn = glIsEnabled(GL_LIGHTING) ;
+	if (alpha < 1) {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		lightOn = glIsEnabled(GL_LIGHTING);
+		glDisable(GL_LIGHTING);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		//glDisable(GL_DEPTH_TEST);
+	}
+	
 	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -53,6 +63,9 @@ void Model::render()
 	glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
 
 	glBegin(GL_TRIANGLES);
+	if (alpha < 1) {
+		glColor4f(1, 1, 1, alpha);
+	}
 	for (int i = 0; i < verts.size()/3 ; i++) {
 		glArrayElement(i);
 	}
@@ -61,6 +74,13 @@ void Model::render()
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_BLEND);
+	glDisable(GL_CULL_FACE);
+	//glEnable(GL_DEPTH_TEST);
+
+	if (lightOn) {
+		glEnable(GL_LIGHTING);
+	}
 }
 
 

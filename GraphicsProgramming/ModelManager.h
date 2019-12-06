@@ -22,6 +22,8 @@ public:
 		teapot,
 		cow,
 		ufo,
+		beam,
+
 		garfield,
 		none
 	};
@@ -39,8 +41,11 @@ private:
 
 	map<ModelEnum, vector<char*> >filenames {
 		{teapot,{"models/teapot.obj", "gfx/checked.png"}},
-		{cow,{"models/moo.obj", "gfx/garfieldskin.png"}},
+		{cow,{"models/moo.obj", "gfx/cow.png"}},
 		{ufo,{"models/ufo.obj", "gfx/ufo.png"}},
+		{beam,{"models/beam.obj", "gfx/Beam.png"}},
+		
+		
 		//{garfield,{"models/garfiled.obj", "gfx/garfieldskin.png"}},
 	};
 

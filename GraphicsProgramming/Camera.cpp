@@ -90,11 +90,20 @@ void Camera::handleInput(Input *input, float windowWidth, float windowHeight, fl
 		}if (rotation.y < -180.f) {
 			rotation.y += 360.f;
 		}
+		if (followSpaceship) {
+			if (rotation.x < -25.f) {
+				rotation.x = -25.f;
+			}if (rotation.x > 30.f) {
+				rotation.x = 30.f;
+			}
+		}
+		else {
 
-		if (rotation.x < -80.f) {
-			rotation.x = -80.f;
-		}if (rotation.x > 80.f) {
-			rotation.x = 80.f;
+			if (rotation.x < -80.f) {
+				rotation.x = -80.f;
+			}if (rotation.x > 80.f) {
+				rotation.x = 80.f;
+			}
 		}
 		updateLookAt();
 	}
@@ -111,12 +120,19 @@ void Camera::handleInput(Input *input, float windowWidth, float windowHeight, fl
 
 void Camera::update(float dt)
 {
+	
+
+
 	//if there is input to move
 	if (direction.length() > 0.01f); {
 		speed = running ? runningSpeed : walkingSpeed;
-		position.y += direction.y*speed*dt; // up is always world alligned
-		position += forwardDirection.multiply(direction.z*speed*dt); // forward component, split because up is different alligend to forward/right
-		position += rightDirection.multiply(direction.x*speed*dt);  // right component
+		Vector3 toMove = Vector3();
+		toMove.y += direction.y*speed*dt; // up is always world alligned
+		toMove += forwardDirection.multiply(direction.z*speed*dt); // forward component, split because up is different alligend to forward/right 
+		toMove += rightDirection.multiply(direction.x*speed*dt);  // right component
+		if (followSpaceship)
+			toMove.y = 0;
+		position += toMove;
 		updateLookAt();
 	}
 }
@@ -143,7 +159,8 @@ void Camera::loadSkybox(char * filename)
 
 
 void Camera::drawSkybox() {
-
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();

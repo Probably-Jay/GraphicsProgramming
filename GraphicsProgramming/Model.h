@@ -23,7 +23,7 @@ class Model
 public:
 
 	bool load(char* modelFilename, char* textureFilename);
-	void render();
+	void render(float alpha);
 
 private:
 

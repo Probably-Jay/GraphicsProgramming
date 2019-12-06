@@ -14,16 +14,16 @@ Object::~Object()
 	}
 }
 
-void Object::initialise(ObjectInfo myInfo, ModelManager & modelManager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos , int parentDepth )
+void Object::initialise(ObjectInfo myInfo, ModelManager & modelManager, LightManager * lightManager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos , int parentDepth )
 {
 	transform = (Transform)myInfo; // upcast to transform
-
+	alpha = myInfo.alpha;
 	model = modelManager.getModel(myInfo.modelName);
 
-	if (parentDepth < 20 && objectInfos!= nullptr) {
+	if (parentDepth < MAX_CHILD_DEPTH && objectInfos!= nullptr) {
 		for (auto childObjInfo : objectInfos->at(myInfo.childrenEnum)) {
 			Object * child = new Object();
-			child->initialise(childObjInfo, modelManager, objectInfos, parentDepth+1);
+			child->initialise(childObjInfo, modelManager, lightManager, objectInfos,  parentDepth+1);
 			child->depthOfParents++;
 			childObjects.push_back(child);
 		}
@@ -32,13 +32,22 @@ void Object::initialise(ObjectInfo myInfo, ModelManager & modelManager, map<Obje
 
 }
 
+void Object::update(float dt)
+{
+	spaceshipUpdate(dt);
+}
+
+void Object::spaceshipUpdate(float dt)
+{
+}
+
 void Object::render()
 {
 	glPushMatrix();
 		glTranslatef(transform.position.x, transform.position.y, transform.position.z);
 		glRotatef(transform.rotationScalar, transform.rotationVector.x, transform.rotationVector.y, transform.rotationVector.z);
 		glScalef(transform.scale.x,transform.scale.y,transform.scale.z);
-		model->render();
+		model->render(alpha);
 		for (auto child : childObjects) {
 			child->render();
 		}
@@ -55,6 +64,11 @@ void Object::applyTransformToAllChildren(Transform t)
 	}
 }
 
-void Object::initialise(ModelManager& modelManager)
+void Object::initialise(ModelManager& modelManager, LightManager* lightmanager)
 {
+	// virtual function
 }
+
+//void Object::renderJustMe()
+//{
+//}
