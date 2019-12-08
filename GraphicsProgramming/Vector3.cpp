@@ -27,6 +27,11 @@ bool Vector3::equals(const Vector3& v2)
 	return equals(v2, 0.00001f);
 }
 
+bool Vector3::operator==(const Vector3& v2)
+{
+	return equals(v2,0.00001f);
+}
+
 
 float Vector3::length() {
 	return (float)sqrt(this->lengthSquared());

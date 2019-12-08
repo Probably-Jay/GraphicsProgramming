@@ -14,7 +14,7 @@
 #include "SOIL.h"
 #include <vector>
 #include "Transform.h"
-
+#include "Globals.h"
 #include "Camera.h"
 
 #include "Object.h"
@@ -27,6 +27,7 @@
 
 #include <array>
 #include <string>
+
 
 
 class Scene{

@@ -11,23 +11,37 @@ Spaceship::~Spaceship() {
 
 }
 
-void Spaceship::initialise(ModelManager& modelManager,LightManager * lightManager) 
+bool Spaceship::initialise(ModelManager& modelManager,LightManager * lightManager) 
 {
+	bool isTransparent = false;
+
 	this->lightManager = lightManager;
-	Object::initialise(myInfo, modelManager,lightManager);
-	beam.initialise(beamInfo, modelManager,lightManager);
+	isTransparent |= beam.initialise(beamInfo, modelManager,lightManager);
 
-	light = this->lightManager->newSpotLight(Vector3(0, 0, 0), Vector3(0, 1, 0), 50, 30);
+	lightBeam = this->lightManager->newSpotLight(Vector3(0, 0, 0), Vector3(0, 1, 0), 5, 30);
+	lights.push_back(lightBeam);
 
+	isTransparent |= halo.initialise(halo.info, modelManager, lightManager);
+	lights.push_back(halo.light);
+	childObjects.push_back(&halo);
 	 
+	return Object::initialise(info, modelManager,lightManager) || isTransparent;
 }
 
-void Spaceship::spaceshipUpdate(float dt)
+void Spaceship::update(float dt)
 {
-	light->updatePosition(transform.position);
+	lightBeam->updatePosition(transform.position);
+	halo.update(dt, transform.position);
+	Object::update(dt);
+	//halo.updateLightPosition(transform.position + Vector3(0,0,0));
 }
 
-void Spaceship::render()
+
+
+void Spaceship::doLighting()
 {
 
+	lightBeam->doLighting();
+	//halo.doLighting();
+	Object::doLighting();
 }

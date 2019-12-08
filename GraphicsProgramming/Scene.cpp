@@ -19,7 +19,7 @@ Scene::Scene(Input *in)
 
 	// Other OpenGL / render setting should be applied here.
 
-	cam.loadSkybox("gfx/kisspng-space-skybox-texture.png");
+	cam.loadSkybox(objectManager.getModelManager());
 
 	input->setMousePos(width / 2, height / 2);
 	glutWarpPointer(width / 2, height / 2);
@@ -30,7 +30,7 @@ Scene::Scene(Input *in)
 	glEnable(GL_LIGHTING);
 
 	// Initialise scene variables
-	lightManager.initialise();
+	lightManager.initialise(Vector3(0,1,0),Vector3(0,-10,0));
 	objectManager.loadObjects(&lightManager);
 	simpleObjectManager.loadTextures();
 
@@ -75,12 +75,15 @@ void Scene::update(float dt)
 	// update scene related variables.
 	cam.update(dt);
 	float s = sin(glutGet(GLUT_ELAPSED_TIME) / 1000.f);
+
 	//objectManager.objects[0]->transform.rotationScalar = 20 + 50*sin(glutGet(GLUT_ELAPSED_TIME)/1000.f);
 	//objectManager.objects[0]->applyTransformToAllChildren(Transform(Vector3(10,55,0), Vector3(0.8,0.8,0.8),   50 * s));
 
 	cam.updateLookAt();
 	objectManager.updateObjects(dt);
-	objectManager.moveSpaceship( cam.getLookAt() +cam.getForwardDirection().multiply(20) , false);
+	if (cam.isFollowingSpaceship()) {
+		objectManager.moveSpaceship( cam.getLookAt() +cam.getForwardDirection().multiply(20) , false);
+	}
 
 
 	// Calculate FPS for output
@@ -96,14 +99,19 @@ void Scene::render() {
 	glLoadIdentity();
 	// Set the camera
 	gluLookAt(cam.getPosition().x, cam.getPosition().y, cam.getPosition().z, cam.getLookAt().x, cam.getLookAt().y, cam.getLookAt().z, cam.getUpDirection().x, cam.getUpDirection().y, cam.getUpDirection().z);
-	cam.drawSkybox();
+	//cam.drawSkybox();
 	// Render geometry/scene here -------------------------------------
 	
 
-	simpleObjectManager.drawPlane(Vector3(0,-10,0), 300, 300,SimpleObjectManager::grass);
-	objectManager.drawObjects();
+	//simpleObjectManager.drawPlane(Vector3(0,-10,0), 1.2*MAP_SIZE, 300,SimpleObjectManager::grass);
+	//objectManager.renderObjects();
+	
+	
+	objectManager.doLighting();
+	objectManager.doSunShadows();
 
-	lightManager.doLighting();
+
+	//lightManager.doAllLighting();
 	
 
 	// End render geometry --------------------------------------

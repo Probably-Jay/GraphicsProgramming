@@ -6,6 +6,8 @@ ObjectManager::ObjectManager()
 {
 	modelManager.loadModels();
 	objects.push_back(&spaceship);
+	
+	
 }
 
 
@@ -18,16 +20,27 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::loadObjects(LightManager * _lightManager)
 {
+	addCows(1);
+	//addGrass(100);
 	lightManager = _lightManager;
+
+
 	for (auto objInfo : objectInfos.at(ObjectChildrenEnum::parents)) {
 		Object *obj = new Object();
 		objects.push_back(obj);
-		obj->initialise(objInfo, modelManager, lightManager, &objectInfos);
+		obj->initialise(objInfo, modelManager, lightManager, &objectInfos); 
 	}
 
+	bool objectIsOrContainsTransparentObjects;  // transparent objects must be drawn last for them to both depth sort and alpha blend correctly
 
 	for (auto obj : objects) {
-		obj->initialise(modelManager,lightManager);
+		objectIsOrContainsTransparentObjects = obj->initialise(modelManager, lightManager); // this is an virtual overloaded function
+		if (objectIsOrContainsTransparentObjects) {
+			transparentObjects.push_back(obj);
+		}
+		else {
+			opaqueObjects.push_back(obj);
+		}
 	}
 
 	
@@ -35,16 +48,51 @@ void ObjectManager::loadObjects(LightManager * _lightManager)
 
 void ObjectManager::updateObjects(float dt)
 {
+	
+
+	float t = (glutGet(GLUT_ELAPSED_TIME) / 1000.f);
 	for (auto obj : objects) {
+		if (obj->info.modelName == ModelManager::ModelEnum::grass) {
+			ObjectInfo childInfo = obj->childObjects[0]->info;
+			obj->applyTransformToAllChildren(Transform(childInfo.position, childInfo.scale, 10*sin(t+obj->info.randomSeed), Vector3(cos(obj->info.randomSeed), 0, 2 * sin(obj->info.randomSeed))));
+		}
 		obj->update(dt);
+	}
+	
+	
+
+
+}
+
+void ObjectManager::renderObjects()
+{
+	
+	for (auto obj : opaqueObjects) {
+		obj->render();
+	}
+	for (auto obj : transparentObjects) {
+		obj->render();
 	}
 }
 
-void ObjectManager::drawObjects()
+void ObjectManager::doLighting()
 {
+	lightManager->doGlobalLighting();
 	for (auto obj : objects) {
-		obj->render();
+		obj->doLighting();
 	}
+}
+ 
+void ObjectManager::doSunShadows()
+{
+	float* shadowMatrix = lightManager->getSunShadow();
+	glPushMatrix();
+	glMultMatrixf((GLfloat*)shadowMatrix);
+	for (auto obj : opaqueObjects) {
+		obj->renderShadow();
+	}
+	glPopMatrix();
+							
 }
 
 void ObjectManager::moveSpaceship(Vector3 vec, bool addToCurrentPosition )
@@ -54,5 +102,29 @@ void ObjectManager::moveSpaceship(Vector3 vec, bool addToCurrentPosition )
 	}
 	else {
 		spaceship.transform.position = vec;
+	}
+}
+
+void ObjectManager::addCows(int numberOfCows)
+{
+	srand(time(NULL));
+	for (int i = 0; i < numberOfCows; i++) {
+		float xpos = -MAP_SIZE + fmod(rand(), 2.f * MAP_SIZE); 
+		float zpos = -MAP_SIZE + fmod(rand(), 2.f * MAP_SIZE); 
+		xpos = 0; 
+		zpos = 0;
+		objectInfos[ObjectChildrenEnum::parents].push_back(ObjectInfo(ModelManager::ModelEnum::cow, Transform(Vector3(xpos,-10,zpos),Vector3(0.05,0.05,0.05),rand()%360,Vector3(0,1,0))));
+
+	}
+}
+
+void ObjectManager::addGrass(int grass)
+{
+	srand(time(NULL)+1);
+	for (int i = 0; i < grass; i++) {
+		float xpos = -MAP_SIZE + fmod(rand(), 2.f * MAP_SIZE);
+		float zpos = -MAP_SIZE + fmod(rand(), 2.f * MAP_SIZE);
+		objectInfos[ObjectChildrenEnum::parents].push_back(ObjectInfo(ModelManager::ModelEnum::grass, Transform(Vector3(xpos, -10, zpos), Vector3(0.2, 0.2,0.2), rand() % 360, Vector3(0, 1, 0)),Vector3(1,1,1),1,ObjectChildrenEnum::grassKids,rand()));
+
 	}
 }

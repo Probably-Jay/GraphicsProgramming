@@ -7,6 +7,7 @@ class Vector3 {
 	
 public:
 	Vector3(float x = 0, float y = 0, float z = 0);
+	
 	Vector3 copy();
 
 	static Vector3 zero() { return Vector3(0, 0, 0); };
@@ -36,6 +37,8 @@ public:
 
 	bool equals(const Vector3& v2, float epsilon);
 	bool equals(const Vector3& v2);
+	
+	bool operator==(const Vector3& v3);
 
 	Vector3 operator+(const Vector3& v2);
 	Vector3 operator-(const Vector3& v2);

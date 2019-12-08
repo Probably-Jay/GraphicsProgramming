@@ -33,11 +33,11 @@ bool Model::load(char* modelFilename, char* textureFilename)
 void Model::render(float alpha)
 {
 
-	bool lightOn = glIsEnabled(GL_LIGHTING) ;
+	
 	if (alpha < 1) {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		lightOn = glIsEnabled(GL_LIGHTING);
+		glIsEnabled(GL_LIGHTING);
 		glDisable(GL_LIGHTING);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
@@ -78,9 +78,9 @@ void Model::render(float alpha)
 	glDisable(GL_CULL_FACE);
 	//glEnable(GL_DEPTH_TEST);
 
-	if (lightOn) {
-		glEnable(GL_LIGHTING);
-	}
+	
+	glEnable(GL_LIGHTING);
+	
 }
 
 
@@ -177,6 +177,32 @@ bool Model::loadModel(char* filename)
 	faces.clear();
 
 	return true;
+}
+
+void Model::renderShadow()
+{
+	glDisable(GL_LIGHTING);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, &verts[0]);
+	glNormalPointer(GL_FLOAT, 0, &norms[0]);
+	glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
+
+	
+	glColor4f(0, 0, 0, 1);
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < verts.size() / 3; i++) {
+		glArrayElement(i);
+	}
+	glEnd();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glEnable(GL_LIGHTING);
 }
 
 bool Model::loadTexture(char* filename)

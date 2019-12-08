@@ -20,9 +20,15 @@ void Light::updatePosition(Vector3 _position)
 
 }
 
-void Light::initialise(LightType type, Vector3 _position, Vector3 _diffuse, Vector3 _direction, Vector3 _ambient, float _intensityExponent , float _spotAngle )
+void Light::initialise(LightType type, GLint _GLlight, Vector3 _position, Vector3 _diffuse, float _intensityExponent, Vector3 _direction, Vector3 _ambient,  float _spotAngle )
 {
 	position = _position;
+	directionVector = _direction;
+	if (type == Light::LightType::directional) {
+		directionVector = _position;
+	}
+
+	GLlight = _GLlight;
 	lightPosition[0] = _position.x;
 	lightPosition[1] = _position.y;
 	lightPosition[2] = _position.z;
@@ -67,4 +73,25 @@ void Light::initialise(LightType type, Vector3 _position, Vector3 _diffuse, Vect
 
 void Light::doLighting()
 {
+	glEnable(GL_LIGHTING);
+
+	glLightfv(GLlight, GL_POSITION, lightPosition);
+	glLightfv(GLlight, GL_DIFFUSE, diffuse);
+
+	switch (type)
+	{
+	case Light::point:
+		break;
+	case Light::directional:
+		glLightfv(GLlight, GL_AMBIENT, ambient);
+		break;
+	case Light::spot:
+		glLightfv(GLlight, GL_SPOT_DIRECTION, direction);
+		glLightf(GLlight, GL_SPOT_CUTOFF,spotAngle);
+		glLightf(GLlight, GL_SPOT_EXPONENT, intensity);
+		break;
+	default:
+		break;
+	}
+	glEnable(GLlight);
 }

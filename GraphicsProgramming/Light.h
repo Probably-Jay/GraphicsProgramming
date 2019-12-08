@@ -15,6 +15,8 @@ public:
 
 	void updatePosition(Vector3 position);
 
+	void doLighting();
+		
 private:
 
 	enum LightType
@@ -25,12 +27,17 @@ private:
 
 	};
 
-	void initialise(LightType type, Vector3 position, Vector3 diffuse = Vector3(), Vector3 direction = Vector3(), Vector3 ambient = Vector3(), float intensityExponent= 1, float spotAngle = 30);
-	void doLighting();
+	void initialise(LightType type, GLint GLlight, Vector3 position, Vector3 diffuse = Vector3(), float _intensityExponent =1, Vector3 direction = Vector3(), Vector3 ambient = Vector3(), float spotAngle = 30);
+
+	
+	GLint GLlight;
 
 	LightType type;
 
+
+
 	Vector3 position;
+	Vector3 directionVector;
 
 	//void setUpPointLight();
 	//void setUpDirectionalLight();

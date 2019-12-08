@@ -8,7 +8,7 @@ LightManager::~LightManager()
 {
 }
 
-void LightManager::initialise()
+void LightManager::initialise(Vector3 floorNormal, Vector3 floorPoint)
 {
 	lights = {};
 
@@ -22,32 +22,43 @@ void LightManager::initialise()
 	GLlights.push_back(GL_LIGHT7);
 
 
-	/*lights[1]=(std::pair< GLint, Light*>(GL_LIGHT0, nullptr));
-	lights[2]=(std::pair< GLint, Light*>(GL_LIGHT1, nullptr));
-	lights[3]=(std::pair< GLint, Light*>(GL_LIGHT2, nullptr));
-	lights[4]=(std::pair< GLint, Light*>(GL_LIGHT3, nullptr));
-	lights[5]=(std::pair< GLint, Light*>(GL_LIGHT4, nullptr));
-	lights[6]=(std::pair< GLint, Light*>(GL_LIGHT5, nullptr));
-	lights[7]=(std::pair< GLint, Light*>(GL_LIGHT6, nullptr));
-	lights[8]=(std::pair< GLint, Light*>(GL_LIGHT7, nullptr));*/
+	sun = newDirectionalLight(Vector3(0, tan(0.523599), 1).normalised() , Vector3(1, 0.8, 1), Vector3(1, 1, 1),0.5, 0.05);
+	sunShadow.initialiseShadow(floorNormal, floorPoint);
+	
 
 }
 
-Light* LightManager::newPointLight(Vector3 position, Vector3 diffuse)
+Light* LightManager::newPointLight(Vector3 position, Vector3 diffuse, float intensity)
 {
-	return nullptr;
+	if (lights.size() < 8) {
+		Light* l = new Light();
+		l->initialise(Light::LightType::point, GLlights[lights.size()], position, diffuse, intensity);
+		lights.push_back(l);
+		return l;
+	}
+	else {
+		return nullptr;
+	}
 }
 
-Light* LightManager::newDirectionalLight(Vector3 position, Vector3 diffuse, Vector3 ambient)
+Light* LightManager::newDirectionalLight(Vector3 direction, Vector3 diffuse, Vector3 ambient, float intensity, float ambiendIntensity)
 {
-	return nullptr;
+	if (lights.size() < 8) {
+		Light* l = new Light();
+		l->initialise(Light::LightType::directional, GLlights[lights.size()], direction, diffuse, intensity, Vector3(),ambient,0.f);
+		lights.push_back(l);
+		return l;
+	}
+	else {
+		return nullptr;
+	}
 }
 
 Light* LightManager::newSpotLight(Vector3 position, Vector3 diffuse, Vector3 direction, float intensity, float angle)
 {
 	if (lights.size() < 8) {
 		Light * l = new Light();
-		l->initialise(Light::LightType::spot, position,diffuse,direction,Vector3(),intensity,angle);
+		l->initialise(Light::LightType::spot, GLlights[lights.size()], position,diffuse,intensity,direction,Vector3(),angle);
 		lights.push_back(l);
 		return l;
 	}
@@ -57,7 +68,12 @@ Light* LightManager::newSpotLight(Vector3 position, Vector3 diffuse, Vector3 dir
 
 }
 
-void LightManager::doLighting()
+float* LightManager::getSunShadow()
+{
+	return sunShadow.getShadowMatrix(Vector3(),sun->directionVector);
+}
+
+void LightManager::doAllLighting()
 {
 	glEnable(GL_LIGHTING);
 	for (int i = 0; i < lights.size(); i ++) {
@@ -83,5 +99,35 @@ void LightManager::doLighting()
 		}
 		glEnable(GLlights[i]);
 	}
+}
+
+void LightManager::doSpecificLighting(Light* light)
+{
+	glEnable(GL_LIGHTING);
+	
+	glLightfv(light->GLlight, GL_POSITION, light->lightPosition);
+	glLightfv(light->GLlight, GL_DIFFUSE, light->diffuse);
+
+	switch (light->type)
+	{
+	case Light::point:
+		break;
+	case Light::directional:
+		glLightfv(light->GLlight, GL_AMBIENT, light->ambient);
+		break;
+	case Light::spot:
+		glLightfv(light->GLlight, GL_SPOT_DIRECTION, light->direction);
+		glLightf(light->GLlight, GL_SPOT_CUTOFF, light->spotAngle);
+		glLightf(light->GLlight, GL_SPOT_EXPONENT, light->intensity);
+		break;
+	default:
+		break;
+	}
+	glEnable(light->GLlight);
+}
+
+void LightManager::doGlobalLighting()
+{
+	sun->doLighting();
 }
 

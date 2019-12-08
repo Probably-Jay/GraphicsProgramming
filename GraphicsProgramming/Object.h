@@ -10,26 +10,33 @@
 
 class Object
 {
+	friend class ObjectManager;
 public:
 	Object();
 	~Object();
 
 	
-	void initialise(ObjectInfo myInfo, ModelManager& modelManager, LightManager * lightmanager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos = nullptr, int parentDepth= 0);
-	void update(float dt);
-	virtual void spaceshipUpdate(float dt);
-	void render();
+	virtual bool initialise(ObjectInfo myInfo, ModelManager& modelManager, LightManager * lightmanager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos = nullptr, int parentDepth= 0);
+	virtual bool initialise(ModelManager& modelManager, LightManager * lightmanager);
+	virtual void update(float dt);
+	virtual void render();
+	virtual void doLighting();
+	
 
 	Transform transform;
 
 	void applyTransformToAllChildren(Transform t);
 
-	virtual void initialise(ModelManager& modelManager, LightManager * lightmanager);
 
-	
+	Vector3 colour;
 	float alpha;
 
 protected:
+
+	bool isOrContainsTransparentObject;
+	void renderShadow();
+
+
 	//Vector3 positon;
 	Model * model = nullptr;
 
@@ -37,8 +44,9 @@ protected:
 
 	int depthOfParents = 0;
 	vector<Object*> childObjects;
+	vector<Light*> lights;
 
-
+	ObjectInfo info;
 
 };
 

@@ -19,10 +19,14 @@ public:
 
 	enum ModelEnum
 	{
+		uninitialised,
+		ball,
 		teapot,
 		cow,
 		ufo,
 		beam,
+		grass,
+		skybox,
 
 		garfield,
 		none
@@ -41,9 +45,12 @@ private:
 
 	map<ModelEnum, vector<char*> >filenames {
 		{teapot,{"models/teapot.obj", "gfx/checked.png"}},
+		{ball,{"models/ball.obj", "gfx/light.png"}},
 		{cow,{"models/moo.obj", "gfx/cow.png"}},
 		{ufo,{"models/ufo.obj", "gfx/ufo.png"}},
 		{beam,{"models/beam.obj", "gfx/Beam.png"}},
+		{grass,{"models/grassCube.obj", "gfx/grass.png"}},
+		{skybox,{"models/invertedCube.obj", "gfx/kisspng-space-skybox-texture.png"}},
 		
 		
 		//{garfield,{"models/garfiled.obj", "gfx/garfieldskin.png"}},

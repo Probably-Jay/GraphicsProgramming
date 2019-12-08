@@ -5,8 +5,11 @@
 #include <gl/GLU.h>
 #include "Input.h"
 #include <stdio.h>
-
+#include "Globals.h"
 #include "SOIL.h"
+
+#include"Model.h"
+#include"ModelManager.h"
 
 #include "Spaceship.h"
 
@@ -28,11 +31,15 @@ public:
 
 	void handleInput(Input * input, float windowWidth, float windowHeight, float dt);
 	void update( float dt);
-	void loadSkybox(char * filename);
+	void loadSkybox(ModelManager & modelManager);
 	void passSpaceship(Spaceship & s) { spaceship = &s; };
 	void drawSkybox();
 
+	bool isFollowingSpaceship() { return followSpaceship; };
+
 private:
+
+	void boundPosition();
 
 	Vector3 position;
 	Vector3 lookAt;
@@ -50,7 +57,8 @@ private:
 	float speed;
 	float walkingSpeed = 20;
 	float runningSpeed = 40;
-	float lookSpeed = 100;
+	float ylookSpeed = 15;
+	float xlookSpeed = 5;
 	bool running;
 
 	enum Keys // make input handling more readable
@@ -62,6 +70,8 @@ private:
 		up = 101,
 		down = 113,
 		run = 92,
+		free = 118,
+		follow = 99,
 	};
 
 	bool initialResetLook = true;
@@ -71,6 +81,8 @@ private:
 	bool followSpaceship = true;
 
 	Spaceship * spaceship;
+
+	Model * skybox;
 
 
 };
