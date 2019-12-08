@@ -11,6 +11,7 @@
 #include "ModelManager.h"
 #include "Spaceship.h"
 #include "LightManager.h"
+#include "Cow.h"
 
 
 
@@ -22,6 +23,7 @@ public:
 	~ObjectManager();
 
 	void loadObjects(LightManager * lightManager);
+	void handleInput(Input* input);
 	void updateObjects(float dt);
 
 	void addObject(Object*obj) { objects.push_back(obj); };
@@ -39,10 +41,14 @@ public:
 	
 private:
 
+	void deleteObjectMarkedForDeletion();
 
-
+	
 	void addCows(int cows);
 	void addGrass(int grass);
+	void addTrees(int trees);
+
+	
 
 	ModelManager modelManager;
 	LightManager * lightManager;

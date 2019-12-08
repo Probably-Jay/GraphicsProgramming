@@ -27,6 +27,7 @@ public:
 		beam,
 		grass,
 		skybox,
+		tree,
 
 		garfield,
 		none
@@ -51,6 +52,7 @@ private:
 		{beam,{"models/beam.obj", "gfx/Beam.png"}},
 		{grass,{"models/grassCube.obj", "gfx/grass.png"}},
 		{skybox,{"models/invertedCube.obj", "gfx/kisspng-space-skybox-texture.png"}},
+		{tree,{"models/Poplar_Tree.obj", "gfx/tree.png"}},
 		
 		
 		//{garfield,{"models/garfiled.obj", "gfx/garfieldskin.png"}},

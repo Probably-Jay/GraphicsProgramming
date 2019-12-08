@@ -154,3 +154,8 @@ Vector3& Vector3::operator-=(const Vector3& v2) {
 	this->z -= v2.z;
 	return *this;
 }
+
+bool Vector3::containsValueLessThan(float epsilon)
+{
+	return x > epsilon && y > epsilon && z > epsilon;
+}

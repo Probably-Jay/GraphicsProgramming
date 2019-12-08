@@ -22,7 +22,7 @@ void LightManager::initialise(Vector3 floorNormal, Vector3 floorPoint)
 	GLlights.push_back(GL_LIGHT7);
 
 
-	sun = newDirectionalLight(Vector3(0, tan(0.523599), 1).normalised() , Vector3(1, 0.8, 1), Vector3(1, 1, 1),0.5, 0.05);
+	sun = newDirectionalLight(Vector3(0, tan(0.523599), 1).normalised() , Vector3(0, 0, 1), Vector3(0.2, 0.2, 0.4),0.5, 0.05);
 	sunShadow.initialiseShadow(floorNormal, floorPoint);
 	
 

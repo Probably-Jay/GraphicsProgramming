@@ -44,6 +44,11 @@ void Object::update(float dt)
 	}
 }
 
+void Object::update(float dt, Vector3 spaceshipPos)
+{
+	// virtual function
+}
+
 //void Object::spaceshipUpdate(float dt)
 //{
 //}
@@ -105,6 +110,10 @@ bool Object::initialise(ModelManager& modelManager, LightManager* lightmanager)
 {
 	// virtual function
 	return isOrContainsTransparentObject;
+}
+
+void Object::handleInput(Input* input)
+{
 }
 
 //void Object::renderJustMe()

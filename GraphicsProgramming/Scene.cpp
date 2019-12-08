@@ -66,7 +66,7 @@ void Scene::handleInput(float dt)
 
 		input->SetKeyUp('r');
 	}
-
+	objectManager.handleInput(input);
 
 }
 
@@ -99,16 +99,16 @@ void Scene::render() {
 	glLoadIdentity();
 	// Set the camera
 	gluLookAt(cam.getPosition().x, cam.getPosition().y, cam.getPosition().z, cam.getLookAt().x, cam.getLookAt().y, cam.getLookAt().z, cam.getUpDirection().x, cam.getUpDirection().y, cam.getUpDirection().z);
-	//cam.drawSkybox();
+	cam.drawSkybox();
 	// Render geometry/scene here -------------------------------------
 	
 
-	//simpleObjectManager.drawPlane(Vector3(0,-10,0), 1.2*MAP_SIZE, 300,SimpleObjectManager::grass);
-	//objectManager.renderObjects();
+	simpleObjectManager.drawPlane(Vector3(0,-10,0), 1.2*MAP_SIZE, 300,SimpleObjectManager::grass);
+	objectManager.renderObjects();
 	
 	
 	objectManager.doLighting();
-	objectManager.doSunShadows();
+	//objectManager.doSunShadows();
 
 
 	//lightManager.doAllLighting();

@@ -24,12 +24,13 @@ bool Spaceship::initialise(ModelManager& modelManager,LightManager * lightManage
 	isTransparent |= halo.initialise(halo.info, modelManager, lightManager);
 	lights.push_back(halo.light);
 	childObjects.push_back(&halo);
-	 
+	//transform.rotationVector()
 	return Object::initialise(info, modelManager,lightManager) || isTransparent;
 }
 
 void Spaceship::update(float dt)
 {
+	
 	lightBeam->updatePosition(transform.position);
 	halo.update(dt, transform.position);
 	Object::update(dt);

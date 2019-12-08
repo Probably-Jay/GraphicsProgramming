@@ -145,6 +145,7 @@ void Camera::update(float dt)
 			toMove.y = 0;
 		position += toMove;
 		if (followSpaceship)
+			 
 			boundPosition();
 		updateLookAt();
 	}

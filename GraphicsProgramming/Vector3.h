@@ -46,6 +46,8 @@ public:
 	Vector3& operator+=(const Vector3& v2);
 	Vector3& operator-=(const Vector3& v2);
 
+	bool containsValueLessThan(float epsilon);
+
 	float x;
 	float y;
 	float z;

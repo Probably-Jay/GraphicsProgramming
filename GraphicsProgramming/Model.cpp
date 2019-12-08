@@ -66,7 +66,8 @@ void Model::render(float alpha)
 	if (alpha < 1) {
 		glColor4f(1, 1, 1, alpha);
 	}
-	for (int i = 0; i < verts.size()/3 ; i++) {
+	int numberOfFaces = verts.size() / 3;
+	for (int i = 0; i < numberOfFaces; i++) {
 		glArrayElement(i);
 	}
 	glEnd();

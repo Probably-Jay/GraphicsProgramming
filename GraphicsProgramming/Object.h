@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "ModelManager.h"
 #include "LightManager.h"
+#include "Input.h"
 
 #define MAX_CHILD_DEPTH 20
 
@@ -18,7 +19,9 @@ public:
 	
 	virtual bool initialise(ObjectInfo myInfo, ModelManager& modelManager, LightManager * lightmanager, map<ObjectChildrenEnum, vector<ObjectInfo>> * objectInfos = nullptr, int parentDepth= 0);
 	virtual bool initialise(ModelManager& modelManager, LightManager * lightmanager);
+	virtual void handleInput(Input* input);
 	virtual void update(float dt);
+	virtual void update(float dt, Vector3 spaceshipPos);
 	virtual void render();
 	virtual void doLighting();
 	
@@ -31,6 +34,7 @@ public:
 	Vector3 colour;
 	float alpha;
 
+	bool markedForDeletion = false;
 protected:
 
 	bool isOrContainsTransparentObject;
