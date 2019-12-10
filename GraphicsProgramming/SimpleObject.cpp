@@ -20,7 +20,7 @@ void SimpleObjectManager::loadTextures()
 		if (texture == 0)
 		{
 			printf("SOIL loading error: '%s'\n", SOIL_last_result());
-			MessageBox(NULL, "Texture failed to load", "Error", MB_OK);
+			////MessageBox(NULL, "Texture failed to load", "Error", MB_OK);
 			
 		}
 		else {
@@ -40,7 +40,7 @@ void SimpleObjectManager::drawPlane(Vector3 pos, float xsize, float ysize, int r
 	}
 
 	// if transparent
-	if (alpha < 1) {
+	if (alpha < 1.f) {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_LIGHTING);
