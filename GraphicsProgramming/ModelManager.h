@@ -21,7 +21,6 @@ public:
 	{
 		uninitialised,
 		ball,
-		teapot,
 		cow,
 		ufo,
 		beam,
@@ -29,7 +28,6 @@ public:
 		skybox,
 		tree,
 
-		garfield,
 		none
 	};
 
@@ -43,19 +41,15 @@ private:
 
 	
 	
-
+	// list of the filepaths for the objects
 	map<ModelEnum, vector<char*> >filenames {
-		{teapot,{"models/teapot.obj", "gfx/checked.png"}},
-		{ball,{"models/ball.obj", "gfx/light.png"}},
-		{cow,{"models/moo.obj", "gfx/cow.png"}},
 		{ufo,{"models/ufo.obj", "gfx/ufo.png"}},
 		{beam,{"models/beam.obj", "gfx/Beam.png"}},
-		{grass,{"models/grassCube.obj", "gfx/grass.png"}},
-		{skybox,{"models/invertedCube.obj", "gfx/kisspng-space-skybox-texture.png"}},
+		{cow,{"models/moo.obj", "gfx/cow.png"}},
 		{tree,{"models/Poplar_Tree.obj", "gfx/tree.png"}},
-		
-		
-		//{garfield,{"models/garfiled.obj", "gfx/garfieldskin.png"}},
+		{grass,{"models/grassCube.obj", "gfx/grass.png"}},
+		{ball,{"models/ball.obj", "gfx/light.png"}},
+		{skybox,{"models/invertedCube.obj", "gfx/kisspng-space-skybox-texture.png"}},
 	};
 
 
@@ -65,3 +59,6 @@ private:
 
 };
 
+
+		//{teapot,{"models/teapot.obj", "gfx/checked.png"}},
+		//{garfield,{"models/garfiled.obj", "gfx/garfieldskin.png"}},

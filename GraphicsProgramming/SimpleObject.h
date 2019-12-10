@@ -20,7 +20,7 @@ public:
 		none,
 	};
 
-	void drawPlane(Vector3 pos, float size, int resolution, SimpleTextureEnum tex);
+	void drawPlane(Vector3 pos, float xsize, float ysize, int resolution, SimpleTextureEnum tex = SimpleTextureEnum::none, Vector3 colour = Vector3(1,1,1), float alpha = 1.f);
 
 
 
@@ -31,6 +31,7 @@ private:
 	std::map<SimpleTextureEnum, GLuint> textures;
 
 	std::map<SimpleTextureEnum, char*> textureFilpaths = {
+		{grass,"gfx/grass.png"},
 		{grass,"gfx/grass.png"},
 	};
 

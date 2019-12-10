@@ -7,7 +7,7 @@
 #include "LightManager.h"
 #include "Input.h"
 
-#define MAX_CHILD_DEPTH 20
+constexpr auto MAX_CHILD_DEPTH = 20;
 
 class Object
 {
@@ -41,10 +41,10 @@ protected:
 	void renderShadow();
 
 
-	//Vector3 positon;
+
 	Model * model = nullptr;
 
-	//void renderJustMe();
+	
 
 	int depthOfParents = 0;
 	vector<Object*> childObjects;

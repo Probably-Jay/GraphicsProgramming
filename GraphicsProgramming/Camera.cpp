@@ -17,11 +17,7 @@ Camera::~Camera()
 void Camera::updateLookAt()
 {
 
-	/*if (initialResetLook) {
-		initialResetLook = false;
-		rotation.x = 0;
-		rotation.y = 0;
-	}*/
+	
 
 	// from lecture slides, parametric formula of sphere
 	float cosR, cosP, cosY;
@@ -161,14 +157,16 @@ void Camera::loadSkybox(ModelManager& modelManager)
 
 
 void Camera::drawSkybox() {
+	//disable the depth test to draw skybox
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
-	glTranslatef(position.x, position.y, position.z);
-		skybox->render();
+		glColor4f(1, 1, 1, 1);
+		glTranslatef(position.x, position.y, position.z);
+		skybox->render(1,false); // render skybox with no transparency or lighting
 	glPopMatrix();
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
@@ -177,65 +175,17 @@ void Camera::drawSkybox() {
 
 void Camera::boundPosition()
 {
-	if (position.x < -MAP_SIZE) {
-		position.x = -MAP_SIZE;
-	}if (position.x > MAP_SIZE) {
-		position.x = MAP_SIZE;
+	// dont let the spaceship leave the map
+	if (position.x < -1.2*MAP_SIZE) {
+		position.x = -1.2 * MAP_SIZE;
+	}if (position.x > 1.2 * MAP_SIZE) {
+		position.x = 1.2 * MAP_SIZE;
 	}
 	
-	if (position.z < -MAP_SIZE) {
-		position.z = -MAP_SIZE;
-	}if (position.z > MAP_SIZE) {
-		position.z = MAP_SIZE;
+	if (position.z < -1.2 * MAP_SIZE) {
+		position.z = -1.2 * MAP_SIZE;
+	}if (position.z > 1.2 * MAP_SIZE) {
+		position.z = 1.2 * MAP_SIZE;
 	}
 }
-//glPushMatrix();
-//glTranslatef(position.x,position.y,position.z);
-//glBindTexture(GL_TEXTURE_2D, skyTexture);
-//glBegin(GL_QUADS);
-//// Top
-//glNormal3f(0.0f, -1.0f, 0.0f);
-//glTexCoord2f(0.5f, 0.25f);		  glVertex3f(1.0f, 1.0f, -1.0f);
-//glTexCoord2f(0.5f, 0.f);		  glVertex3f(-1.0f, 1.0f, -1.0f);
-//glTexCoord2f(0.25f, 0.f);		  glVertex3f(-1.0f, 1.0f, 1.0f);
-//glTexCoord2f(0.25f, 0.25f);		  glVertex3f(1.0f, 1.0f, 1.0f);
 
-//// Bottom
-//glNormal3f(0.0f, 1.0f, 0.0f);
-//glTexCoord2f(0.5f, 0.75f);		glVertex3f(1.0f, -1.0f, 1.0f);
-//glTexCoord2f(0.25f, 0.75f);		glVertex3f(-1.0f, -1.0f, 1.0f);
-//glTexCoord2f(0.25f, 0.5f);		glVertex3f(-1.0f, -1.0f, -1.0f);
-//glTexCoord2f(0.5f, 0.5f);		glVertex3f(1.0f, -1.0f, -1.0f);
-
-//// Front 
-//glNormal3f(0.0f, 0.0f, -1.0f);
-//glTexCoord2f(0.75f, 0.25f);		glVertex3f(1.0f, 1.0f, 1.0f);
-//glTexCoord2f(1.0f, 0.25f);		glVertex3f(-1.0f, 1.0f, 1.0f);
-//glTexCoord2f(1.0f, 0.5f);		glVertex3f(-1.0f, -1.0f, 1.0f);
-//glTexCoord2f(0.75f, 0.5f);		glVertex3f(1.0f, -1.0f, 1.0f);
-
-//// Back
-//glNormal3f(0.0f, 0.0f, 1.0f);
-//glTexCoord2f(0.5f, 0.5f);  		glVertex3f(1.0f, -1.0f, -1.0f);
-//glTexCoord2f(0.25f, 0.5f);		glVertex3f(-1.0f, -1.0f, -1.0f);
-//glTexCoord2f(0.25f, 0.25f);		glVertex3f(-1.0f, 1.0f, -1.0f);
-//glTexCoord2f(0.5f, 0.25f); 		glVertex3f(1.0f, 1.0f, -1.0f);
-
-
-
-//// Left
-//glNormal3f(1.0f, 0.0f, 0.0f);
-//glTexCoord2f(0.25f, 0.25f);		glVertex3f(-1.0f, 1.0f, 1.0f);
-//glTexCoord2f(0.f, 0.25f);  		glVertex3f(-1.0f, 1.0f, -1.0f);
-//glTexCoord2f(0.f, 0.5f);   		glVertex3f(-1.0f, -1.0f, -1.0f);
-//glTexCoord2f(0.25f, 0.5f); 		glVertex3f(-1.0f, -1.0f, 1.0f);
-
-//// Right
-//glNormal3f(-1.0f, 0.0f, 0.0f);
-//glTexCoord2f(0.5f, 0.25f);		glVertex3f(1.0f, 1.0f, -1.0f);
-//glTexCoord2f(0.75f, 0.25f);		glVertex3f(1.0f, 1.0f, 1.0f);
-//glTexCoord2f(0.75f, 0.5f);		glVertex3f(1.0f, -1.0f, 1.0f);
-//glTexCoord2f(0.5f, 0.5f);		glVertex3f(1.0f, -1.0f, -1.0f);
-
-
-//glEnd();

@@ -31,7 +31,7 @@ Scene::Scene(Input *in)
 
 	// Initialise scene variables
 	lightManager.initialise(Vector3(0,1,0),Vector3(0,-10,0));
-	objectManager.loadObjects(&lightManager);
+	objectManager.initialiseObjects(&lightManager);
 	simpleObjectManager.loadTextures();
 
 	
@@ -74,7 +74,7 @@ void Scene::update(float dt)
 {
 	// update scene related variables.
 	cam.update(dt);
-	float s = sin(glutGet(GLUT_ELAPSED_TIME) / 1000.f);
+	//float s = sin(glutGet(GLUT_ELAPSED_TIME) / 1000.f);
 
 	//objectManager.objects[0]->transform.rotationScalar = 20 + 50*sin(glutGet(GLUT_ELAPSED_TIME)/1000.f);
 	//objectManager.objects[0]->applyTransformToAllChildren(Transform(Vector3(10,55,0), Vector3(0.8,0.8,0.8),   50 * s));
@@ -82,7 +82,7 @@ void Scene::update(float dt)
 	cam.updateLookAt();
 	objectManager.updateObjects(dt);
 	if (cam.isFollowingSpaceship()) {
-		objectManager.moveSpaceship( cam.getLookAt() +cam.getForwardDirection().multiply(20) , false);
+		objectManager.moveSpaceship( cam.getLookAt() +cam.getForwardDirection().multiply(20));
 	}
 
 
@@ -93,7 +93,7 @@ void Scene::update(float dt)
 void Scene::render() {
 
 	// Clear Color and Depth Buffers
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	// Reset transformations
 	glLoadIdentity();
@@ -103,17 +103,19 @@ void Scene::render() {
 	// Render geometry/scene here -------------------------------------
 	
 
-	simpleObjectManager.drawPlane(Vector3(0,-10,0), 1.2*MAP_SIZE, 300,SimpleObjectManager::grass);
+	simpleObjectManager.drawPlane(Vector3(0,-10,0), MAP_SIZE, MAP_SIZE, 300.f,SimpleObjectManager::grass); // main ground
+	
+	objectManager.doSunShadows(simpleObjectManager);	
+
+	objectManager.renderReflections(simpleObjectManager);
+	
+	simpleObjectManager.drawPlane(Vector3(0, -10.01, 0), 1.5 * MAP_SIZE, 1.5 * MAP_SIZE, 50, SimpleObjectManager::none, Vector3(0,0,1),0.2); // water
+	
 	objectManager.renderObjects();
-	
-	
-	objectManager.doLighting();
-	//objectManager.doSunShadows();
-
-
-	//lightManager.doAllLighting();
-	
-
+																				  
+	objectManager.doLighting();															  
+																						  													  
+																						  
 	// End render geometry --------------------------------------
 
 	// Render text, should be last object rendered.

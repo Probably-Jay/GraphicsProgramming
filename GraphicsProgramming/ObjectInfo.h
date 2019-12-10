@@ -9,7 +9,6 @@ enum ObjectChildrenEnum
 {
 	parents,
 	grassKids,
-	teapotKids,
 	none,
 };
 

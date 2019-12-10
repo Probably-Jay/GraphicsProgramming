@@ -29,39 +29,62 @@ void SimpleObjectManager::loadTextures()
 	}
 }
 
-void SimpleObjectManager::drawPlane(Vector3 pos, float scale, int resolution, SimpleTextureEnum tex)
+void SimpleObjectManager::drawPlane(Vector3 pos, float xsize, float ysize, int resolution, SimpleTextureEnum tex, Vector3 colour , float alpha)
 {
+	// if not to be texured
+	if (tex == SimpleTextureEnum::none) {
+		glBindTexture(GL_TEXTURE_2D,0);
+	}
+	else {
+		prepareTexture(tex);
+	}
 
-	prepareTexture(tex);
-	
+	// if transparent
+	if (alpha < 1) {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_LIGHTING);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);	
+	}
+
 	glPushMatrix();
 	
-	glTranslatef(pos.x,pos.y,pos.z);
+	glTranslatef(pos.x,pos.y,pos.z); // translate to position
 
-	float halfTrianglesPerSide = resolution/2;
 
-	float trianglesize = scale / halfTrianglesPerSide;
-	float halfTrianglesize = trianglesize / 2.f;
+	// generate plane 
 
-	float halfTriangleProportion = halfTrianglesize / scale;
+	float halfTrianglesPerSide = resolution/2.f;
 
-	glNormal3f(0.0f, 1.0f, 0.0f);
+	float xtrianglesize = xsize / halfTrianglesPerSide;
+	float ytrianglesize = ysize / halfTrianglesPerSide;
 
-	glColor3f(1, 1, 1);
+	float xhalfTrianglesize = xtrianglesize / 2.f;
+	float yhalfTrianglesize = ytrianglesize / 2.f;
+
+	float xhalfTriangleProportion = xhalfTrianglesize / xsize;
+	float yhalfTriangleProportion = yhalfTrianglesize / xsize;
+
+	glNormal3f(0.0f, 1.0f, 0.0f); // normal is up
+	glColor4f(colour.x,colour.y,colour.z,alpha); // assign colour
+
 	for (float i = -halfTrianglesPerSide; i < halfTrianglesPerSide; i++) {
 		glBegin(GL_TRIANGLE_STRIP);
 		for (float j = -halfTrianglesPerSide; j < halfTrianglesPerSide; j++) {
 
-			glTexCoord2f(20.f*((j+halfTrianglesize)/halfTrianglesPerSide), 20.f*(-halfTriangleProportion + (i + halfTrianglesize) / halfTrianglesPerSide));
-			glVertex3f(trianglesize*j, 0.f, -halfTrianglesize + trianglesize * i);
+			glTexCoord2f(20.f*((j+xhalfTrianglesize)/halfTrianglesPerSide), 20.f*(-yhalfTriangleProportion + (i + yhalfTrianglesize) / halfTrianglesPerSide));
+			glVertex3f(xtrianglesize*j, 0.f, -yhalfTrianglesize + ytrianglesize * i);
 
-			glTexCoord2f(20.f*((j + halfTrianglesize) / halfTrianglesPerSide), 20.f*(halfTriangleProportion + (i + halfTrianglesize) / halfTrianglesPerSide));
-			glVertex3f(trianglesize*j, 0.f, halfTrianglesize + trianglesize * i);
+			glTexCoord2f(20.f*((j + xhalfTrianglesize) / halfTrianglesPerSide), 20.f*(yhalfTriangleProportion + (i + yhalfTrianglesize) / halfTrianglesPerSide));
+			glVertex3f(xtrianglesize*j, 0.f, yhalfTrianglesize + ytrianglesize * i);
 		}
 		glEnd();
 	}
-
-
+	glDisable(GL_BLEND);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_LIGHTING);
+	glColor4f(1,1,1,1); // reset colour
 	glPopMatrix();
 }
 

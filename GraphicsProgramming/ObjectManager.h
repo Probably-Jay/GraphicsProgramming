@@ -12,7 +12,7 @@
 #include "Spaceship.h"
 #include "LightManager.h"
 #include "Cow.h"
-
+#include "SimpleObject.h"
 
 
 class Object;
@@ -22,19 +22,20 @@ public:
 	ObjectManager();
 	~ObjectManager();
 
-	void loadObjects(LightManager * lightManager);
+	void initialiseObjects(LightManager * lightManager);
 	void handleInput(Input* input);
 	void updateObjects(float dt);
 
 	void addObject(Object*obj) { objects.push_back(obj); };
 
 	void renderObjects();
+	void renderReflections(SimpleObjectManager& simpleObjectManager);
 	void doLighting();
-	void doSunShadows();
+	void doSunShadows(SimpleObjectManager& simpleObjectManager);
 
 	vector<Object *> objects;
 
-	void moveSpaceship(Vector3 direction, bool addToCurrentPosition = true);
+	void moveSpaceship(Vector3 direction);
 
 	ModelManager& getModelManager() { return modelManager; };
 
@@ -56,28 +57,17 @@ private:
 	map<ObjectChildrenEnum, vector<ObjectInfo>> objectInfos = {
 
 		{
-			parents , { // objects that are not the children of any other objects - no not necessarily have any children of their own
-				//ObjectInfo(ModelManager::ModelEnum::teapot,Transform(Vector3(10,0,0)),teapotKids),
-				//ObjectInfo(ModelManager::ModelEnum::cow, Transform(Vector3(0,0,0),Vector3(0.2,0.2,0.2))),
-				
-				
-				//ObjectInfo(Transform(Vector3(0,20,-30)),ModelManager::ModelEnum::ufo,none),
-				//ObjectInfo(ModelManager::ModelEnum::garfield),
-				
+			parents , { // top level objects
+				// filled by addCows, addGrass, addTrees functions
 			}
 		},
 		{
 			grassKids, { // children of grass
-				ObjectInfo(ModelManager::ModelEnum::grass,Transform(Vector3(0,0.8,0),Vector3(0.85,0.9,0.85),0.f),Vector3(1,1,1),1,grassKids),
-
+				// this object has itself as its child, allowing for recursive children and fractal-like animations
+ 				ObjectInfo(ModelManager::ModelEnum::grass,Transform(Vector3(0,0.8,0),Vector3(0.85,0.9,0.85)),Vector3(1,1,1),1,grassKids),
 			}
 		},
-		{
-			teapotKids , { // children of the teapot
-				ObjectInfo(ModelManager::ModelEnum::teapot,Transform(Vector3(10,0,0),Vector3(0.8,0.8,0.8),20.f),teapotKids),
 
-			}
-		},
 		{
 			none , {}
 		}

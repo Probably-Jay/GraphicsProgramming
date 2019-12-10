@@ -27,7 +27,7 @@ private:
 
 	ObjectInfo info = ObjectInfo(ModelManager::ModelEnum::ufo);
 
-	ObjectInfo beamInfo = ObjectInfo(ModelManager::ModelEnum::beam,Transform(Vector3(0,-10,0),Vector3(1,2,1)),Vector3(1,1,1),0.5f);
+	ObjectInfo beamInfo = ObjectInfo(ModelManager::ModelEnum::beam,Transform(Vector3(0,0,0),Vector3(1,2,1)),Vector3(1,1,1),0.3f);
 	Object beam;
 	Light * lightBeam;
 	LightHalo halo;

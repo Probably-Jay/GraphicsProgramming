@@ -24,17 +24,20 @@ bool Spaceship::initialise(ModelManager& modelManager,LightManager * lightManage
 	isTransparent |= halo.initialise(halo.info, modelManager, lightManager);
 	lights.push_back(halo.light);
 	childObjects.push_back(&halo);
-	//transform.rotationVector()
-	return Object::initialise(info, modelManager,lightManager) || isTransparent;
+	
+	transform = (Transform)info; // upcast to transform
+	alpha = info.alpha; // quick acess for alpha (used to test if object should be drawn at transparency rendering step)
+	model = modelManager.getModel(info.modelName); // assigning pointer to loaded model
+
+	return isTransparent;
 }
 
 void Spaceship::update(float dt)
 {
-	
+	beam.transform.scale = Vector3(1, (20.f+transform.position.y)/10.f, 1);
 	lightBeam->updatePosition(transform.position);
 	halo.update(dt, transform.position);
 	Object::update(dt);
-	//halo.updateLightPosition(transform.position + Vector3(0,0,0));
 }
 
 
@@ -43,6 +46,5 @@ void Spaceship::doLighting()
 {
 
 	lightBeam->doLighting();
-	//halo.doLighting();
 	Object::doLighting();
 }

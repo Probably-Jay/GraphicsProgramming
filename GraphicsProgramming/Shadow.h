@@ -14,7 +14,6 @@ public:
 	float* getShadowMatrix(Vector3 lightPos, Vector3 lightDirection);
 
 private:
-	void generateShadowMatrix(float* shadowMatrix, float lightPos[4], GLfloat floor[12]);
 	void generateShadowMatrix(Vector3 lightPos, Vector3 direction, Vector3 planeNormal, Vector3 point);
 	float shadowMatrix[16] = {};
 	GLfloat floor[12];

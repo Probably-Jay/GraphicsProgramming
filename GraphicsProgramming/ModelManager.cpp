@@ -8,20 +8,22 @@ ModelManager::ModelManager()
 
 ModelManager::~ModelManager()
 {
-}
-
-bool ModelManager::loadModels()
-{
-	bool sucess = true;
-	for (auto f : filenames) {
-		models[f.first] = new Model();
-		sucess = sucess && models[f.first]->load(f.second[0], f.second[1]);
+	for (auto m : models) { // delete children
+		delete m.second;
 	}
-
-	return sucess;
 }
 
-Model* ModelManager::getModel(ModelEnum name)
+bool ModelManager::loadModels() // load in each of the models
+{
+	bool sucess = true; 
+	for (auto f : filenames) { // iterate over each filepath
+		models[f.first] = new Model(); // create empty model object
+		sucess = sucess && models[f.first]->load(f.second[0], f.second[1]); // load in the model
+	}
+	return sucess; //sucess will be false if any fail
+}
+ 
+Model* ModelManager::getModel(ModelEnum name) // return pointer to model from given enum index
 {
 	return models.at(name);
 }

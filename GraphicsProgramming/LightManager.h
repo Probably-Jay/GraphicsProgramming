@@ -17,10 +17,8 @@ public:
 	Light* newSpotLight(Vector3 position, Vector3 diffuse = Vector3(), Vector3 direction = Vector3(),float intensity = 1, float angle = 30);
 
 	float* getSunShadow();
-	//void addLight(Light * l);
-
-	void doAllLighting();
-	void doSpecificLighting(Light* l);
+	
+	
 	void doGlobalLighting();
 
 private:

@@ -30,21 +30,21 @@ bool Model::load(char* modelFilename, char* textureFilename)
 	return true;
 }
 
-void Model::render(float alpha)
+void Model::render(float alpha, bool light)
 {
-
+	if (light)
+		glEnable(GL_LIGHTING);
+	
+	glEnable(GL_TEXTURE_2D);
 	
 	if (alpha < 1) {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glIsEnabled(GL_LIGHTING);
 		glDisable(GL_LIGHTING);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
-		//glDisable(GL_DEPTH_TEST);
 	}
 	
-	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -61,11 +61,11 @@ void Model::render(float alpha)
 	glVertexPointer(3, GL_FLOAT, 0, &verts[0]);
 	glNormalPointer(GL_FLOAT, 0, &norms[0]);
 	glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
+	
 
 	glBegin(GL_TRIANGLES);
-	if (alpha < 1) {
-		glColor4f(1, 1, 1, alpha);
-	}
+	glColor4f(1, 1, 1, alpha);
+
 	int numberOfFaces = verts.size() / 3;
 	for (int i = 0; i < numberOfFaces; i++) {
 		glArrayElement(i);
@@ -77,7 +77,7 @@ void Model::render(float alpha)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisable(GL_BLEND);
 	glDisable(GL_CULL_FACE);
-	//glEnable(GL_DEPTH_TEST);
+
 
 	
 	glEnable(GL_LIGHTING);
@@ -150,11 +150,11 @@ bool Model::loadModel(char* filename)
 		}
 	}
 
-	// "Unroll" the loaded obj information into a list of triangles.
-	// TODO: By this point all model has been read from the file, but is not in the correct order.
-	// You NEED to loop over all the data and sort it into a render ready order/format.
+
 	
-	//std::cout << faces.size() << endl;
+
+	
+
 
 	for (int i = 0; i < faces.size(); i += 3) { // three peices of informarion per vertex
 
@@ -194,7 +194,8 @@ void Model::renderShadow()
 	
 	glColor4f(0, 0, 0, 1);
 	glBegin(GL_TRIANGLES);
-	for (int i = 0; i < verts.size() / 3; i++) {
+	int numberOfFaces = verts.size() / 3; // three peices of information per face
+	for (int i = 0; i < numberOfFaces; i++) {
 		glArrayElement(i);
 	}
 	glEnd();
@@ -206,14 +207,10 @@ void Model::renderShadow()
 	glEnable(GL_LIGHTING);
 }
 
+// also from lecture notes
 bool Model::loadTexture(char* filename)
 {
-//	texture = SOIL_load_OGL_texture
-//	(
-//		filename,
-//		SOIL_LOAD_AUTO,
-//		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT // Depending on texture file type some need inverted others don't.
-//	);
+
 	
 	
 	texture = SOIL_load_OGL_texture

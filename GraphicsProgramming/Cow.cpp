@@ -1,14 +1,9 @@
 #include "Cow.h"
 
-//bool Cow::initialise(ObjectInfo myInfo, ModelManager& modelManager, LightManager* lightmanager, map<ObjectChildrenEnum, vector<ObjectInfo>>* objectInfos, int parentDepth)
-//{
-//	initialPos = myInfo.position;
-//	return Object::initialise(myInfo, modelManager, lightmanager,  objectInfos, parentDepth);
-//}
 
 void Cow::handleInput(Input* input)
 {
-	if (input->isKeyDown(32)) {
+	if (input->isKeyDown(32)) { // abduct cow
 		spaceKeyPressed = true;
 	}
 	else {
@@ -18,24 +13,23 @@ void Cow::handleInput(Input* input)
 
 void Cow::update(float dt, Vector3 spacePos)
 {
-	if (spaceKeyPressed) {
-		if (Vector3(transform.position.x - spacePos.x, 0, transform.position.z - spacePos.z).lengthSquared() <4) {
+	if (spaceKeyPressed) { // if the abduct key is pressed and we are close enough to a cow
+		if (Vector3(transform.position.x - spacePos.x, 0, transform.position.z - spacePos.z).lengthSquared() <4) { // length squared for efficiency
 			beingSucked = true;
 		}
 	}
-	if (beingSucked) {
+	if (beingSucked) { // fly into spaceship
 		Vector3 meToTarget = (spacePos - transform.position);
-		Vector3 initialToTarget = (spacePos - initialPos);
-		transform.position.x = spacePos.x;
+		transform.position.x = spacePos.x; // lock x and z
 		transform.position.z = spacePos.z;
-		transform.position.y += meToTarget.multiply(dt).y;
-		transform.scale -= transform.scale.multiply(0.7*dt);
-		if (transform.position.y > spacePos.y) {
+		transform.position.y += meToTarget.multiply(dt).y; // slowly fly to ufo
+		transform.scale -= transform.scale.multiply(0.7*dt); /// get smaller
+		if (transform.position.y > spacePos.y) { // dont go through the top of spaceship (if ufo moves down)
 			transform.position.y = spacePos.y;
 		}
 		transform.rotationVector = Vector3(info.randomSeed+GLUT_ELAPSED_TIME, info.randomSeed- GLUT_ELAPSED_TIME, info.randomSeed+GLUT_ELAPSED_TIME/2).normalised();
 		transform.rotationScalar += 120.0*dt;
-		if (transform.scale.containsValueLessThan(0.01f)) {
+		if (transform.scale.containsValueLessThan(0.01f)) { // delete object when its fully sucked in
 			markedForDeletion = true;
 		}
 	}

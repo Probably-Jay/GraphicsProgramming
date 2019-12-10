@@ -11,6 +11,5 @@ class Cow :
 
 	bool beingSucked = false;
 	bool spaceKeyPressed = false;
-	Vector3 initialPos;
 };
 
